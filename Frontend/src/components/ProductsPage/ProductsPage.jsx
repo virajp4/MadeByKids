@@ -4,7 +4,7 @@ import ProductsGrid from "./ProductsGrid";
 const ProductPage = () => {
   return (
     <>
-      <CategoryCarousel />
+      <CategoryCarousel visibleItems={3}/>
       <ProductsGrid limit={8} /> 
     </>
   );

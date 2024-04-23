@@ -43,12 +43,20 @@ const prods = [
   },
 ];
 
-function Cats({ name }) {
+function Cats({ name, id }) {
   return (
     <li>
-      <button type="button" className="inline-flex  px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-        {name}
-      </button>
+      <div class="flex items-center p-2 rounded hover:bg-gray-200 ">
+        <input
+          id={`checkbox-item-${id}`}
+          type="checkbox"
+          value=""
+          class="w-4 h-4 text-blue-600 bg-gray-300 border-gray-300 rounded focus:ring-blue-500"
+        />
+        <label for={`checkbox-item-${id}`} class="w-full ms-2 text-sm font-medium text-gray-900 rounded">
+          {name}
+        </label>
+      </div>
     </li>
   );
 }
@@ -74,10 +82,10 @@ export default function ProductsGrid({ limit }) {
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
               </svg>
             </button>
-            <div id="dropdown" className="z-10 hidden  divide-y divide-gray-100 rounded-lg shadow w-44 ">
-              <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdown-button">
+            <div id="dropdownBgHover" class="z-10 hidden w-48 bg-white rounded-lg shadow ">
+              <ul class="p-3 space-y-1 text-sm text-gray-700 " aria-labelledby="dropdownBgHoverButton">
                 {categories.map((c, idx) => (
-                  <Cats key={idx} name={c} />
+                  <Cats key={idx} id={idx} name={c} />
                 ))}
               </ul>
             </div>
