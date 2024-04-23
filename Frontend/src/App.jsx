@@ -1,40 +1,37 @@
 import { useEffect } from "react";
-import {
-  RouterProvider,
-  createBrowserRouter,
-  useLocation,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter, useLocation } from "react-router-dom";
 
 import "./App.css";
 
 import Layout from "./components/Layout/Layout";
 import HomePage from "./components/HomePage/HomePage";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
-
-function ScrollToTop() {
-  const location = useLocation();
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      window.scrollTo(0, 0, "smooth");
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
-  }, [location]);
-  return null;
-}
+import Product from "./components/ProductsPage/Product";
 
 function App() {
   const router = createBrowserRouter([
     {
-      element: (
-        <>
-          <ScrollToTop />
-          <Layout />
-        </>
-      ),
+      path: "/",
+      element: <Layout />,
       children: [
-        { path: "/", element: <HomePage /> },
-        { path: "/shop", element: <ProductsPage /> },
+        { index: true, element: <HomePage /> },
+        {
+          path: "shop",
+          element: <ProductsPage />,
+          children: [
+            {
+              path: ":productId",
+              id: "product-detail",
+              element: <Product />,
+              children: [{ path: "edit", element: <h1>Edit Product</h1>, id: "edit-product" }],
+            },
+            {
+              path: 'new',
+              element: <h1>New Product</h1>,
+              id: 'new-product'
+            }
+          ],
+        },
         { path: "*", element: <h1>404 Not Found</h1> },
       ],
     },
@@ -44,4 +41,3 @@ function App() {
 }
 
 export default App;
-

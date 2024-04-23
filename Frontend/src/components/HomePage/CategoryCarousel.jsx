@@ -1,43 +1,21 @@
-const categories = [
-  "Embroidery",
-  "Decor",
-  "Gifts",
-  "Jewellery",
-  "Books",
-  "Crafts",
-  "Fashion",
-  "Music",
-  "Clothing",
-  "Sports",
-  "Crafts",
-];
 
 function CarItem({ name }) {
-  return (
-    <div className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-black text-center">
-      {name}
-    </div>
-  );
+  return <div className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-black text-center">{name}</div>;
 }
 
 function CarouselItem({ name }) {
   return (
     <div className="hidden duration-700 ease-in-out" data-carousel-item>
-      <div className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-black text-center">
-        {name}
-      </div>
+      <div className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 text-black text-center">{name}</div>
     </div>
   );
 }
 
 export default function CategoryCarousel() {
+  const categories = ["Embroidery", "Decor", "Gifts", "Jewellery", "Books", "Crafts", "Fashion", "Music", "Clothing", "Sports", "Crafts"];
   return (
     <>
-      <div
-        id="controls-carousel"
-        className="relative w-full my-2"
-        data-carousel="static"
-      >
+      <div id="controls-carousel" className="relative my-2" data-carousel="static">
         <div className="relative h-8 overflow-hidden rounded-lg md:h-96">
           {categories.map((category, idx) => (
             <CarouselItem key={idx} name={category} />
@@ -56,13 +34,7 @@ export default function CategoryCarousel() {
               fill="none"
               viewBox="0 0 6 10"
             >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 1 1 5l4 4"
-              />
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1 1 5l4 4" />
             </svg>
             <span className="sr-only">Previous</span>
           </span>
@@ -80,13 +52,7 @@ export default function CategoryCarousel() {
               fill="none"
               viewBox="0 0 6 10"
             >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m1 9 4-4-4-4"
-              />
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
             </svg>
             <span className="sr-only">Next</span>
           </span>
@@ -95,4 +61,3 @@ export default function CategoryCarousel() {
     </>
   );
 }
-
