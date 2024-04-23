@@ -9,6 +9,7 @@ import "./App.css";
 
 import Layout from "./components/Layout/Layout";
 import HomePage from "./components/HomePage/HomePage";
+import ProductsPage from "./components/ProductsPage/ProductsPage";
 
 function ScrollToTop() {
   const location = useLocation();
@@ -33,7 +34,8 @@ function App() {
       ),
       children: [
         { path: "/", element: <HomePage /> },
-        { path: "*", element: <h1>404 Not Found</h1>}
+        { path: "/shop", element: <ProductsPage /> },
+        { path: "*", element: <h1>404 Not Found</h1> },
       ],
     },
   ]);
@@ -42,3 +44,4 @@ function App() {
 }
 
 export default App;
+

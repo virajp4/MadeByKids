@@ -6,12 +6,12 @@ import Footer from "./Footer";
 
 export default function Layout() {
   return (
-    <div style={{ maxWidth: "100vw" }}>
+    <div className="w-screen">
       <Navbar />
-      <div className="">
+      <div className="flex-grow mb-5">
         <Outlet />
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 }
