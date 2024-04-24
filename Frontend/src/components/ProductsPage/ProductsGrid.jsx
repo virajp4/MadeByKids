@@ -46,14 +46,14 @@ const prods = [
 function Cats({ name, id }) {
   return (
     <li>
-      <div class="flex items-center p-2 rounded hover:bg-gray-200 ">
+      <div className="flex items-center p-2 rounded hover:bg-gray-200 ">
         <input
           id={`checkbox-item-${id}`}
           type="checkbox"
           value=""
-          class="w-4 h-4 text-blue-600 bg-gray-300 border-gray-300 rounded focus:ring-blue-500"
+          className="w-4 h-4 text-blue-600 bg-gray-300 border-gray-300 rounded focus:ring-blue-500"
         />
-        <label for={`checkbox-item-${id}`} class="w-full ms-2 text-sm font-medium text-gray-900 rounded">
+        <label htmlFor={`checkbox-item-${id}`} className="w-full ms-2 text-sm font-medium text-gray-900 rounded">
           {name}
         </label>
       </div>
@@ -73,7 +73,7 @@ export default function ProductsGrid({ limit }) {
             </label>
             <button
               id="dropdown-button"
-              data-dropdown-toggle="dropdown"
+              data-dropdown-toggle="dropdownBgHover"
               className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 "
               type="button"
             >
@@ -82,8 +82,8 @@ export default function ProductsGrid({ limit }) {
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
               </svg>
             </button>
-            <div id="dropdownBgHover" class="z-10 hidden w-48 bg-white rounded-lg shadow ">
-              <ul class="p-3 space-y-1 text-sm text-gray-700 " aria-labelledby="dropdownBgHoverButton">
+            <div id="dropdownBgHover" className="z-10 hidden w-48 bg-white rounded-lg shadow ">
+              <ul className="p-3 space-y-1 text-sm text-gray-700 " aria-labelledby="dropdownBgHoverButton">
                 {categories.map((c, idx) => (
                   <Cats key={idx} id={idx} name={c} />
                 ))}
@@ -116,8 +116,8 @@ export default function ProductsGrid({ limit }) {
           </div>
         </form>
       </div>
-      <div class="p-4 sm:px-5 sm:py-5 lg:px-8">
-        <div class="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+      <div className="p-4 sm:px-5 sm:py-5 lg:px-8">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {prods.map((prod, idx) => {
             if (idx < limit) return <ProductGridItem key={idx} id={idx} {...prod} />;
           })}

@@ -98,7 +98,7 @@ app.delete('/children/:id', (req, res) => {
   });
 });
 
-app.get('/products',(req, res) => {
+app.get('/shop',(req, res) => {
   db.query('SELECT * FROM products', (err, result) => {
     if (err) {
       throw err;
@@ -107,7 +107,7 @@ app.get('/products',(req, res) => {
   });
 });
 
-app.get('/products/:id', (req, res) => {
+app.get('/shop/:id', (req, res) => {
   db.query(`SELECT * FROM products WHERE productId = '${req.params.id}'`, (err, result) => {
     if (err) {
       throw err;
@@ -116,7 +116,7 @@ app.get('/products/:id', (req, res) => {
   })
 });
 
-app.post('/products', (req, res) => {
+app.post('/shop/new', (req, res) => {
   const { productName, productPrice, productDetails, childId } = req.body;
   const productId = uuidv4().replace(/-/gi, '');
   db.query(`INSERT INTO products (productId, productName, productPrice, productDetails, childId) VALUES ('${productId}', '${productName}', ${productPrice}, '${productDetails}', '${childId}')`, (err, result) => {
@@ -127,7 +127,7 @@ app.post('/products', (req, res) => {
   });
 });
 
-app.delete('/products/:id', (req,res)=> {
+app.delete('/shop/:id', (req,res)=> {
   db.query(`DELETE FROM products WHERE productId = '${req.params.id}'`, (err, result) => {
     if (err) {
       throw err;

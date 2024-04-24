@@ -6,9 +6,9 @@ import Footer from "./Footer";
 
 export default function Layout() {
   return (
-    <div className="max-w-screen bg-[#FAFAFA]">
+    <div className="h-fit max-w-screen bg-[#FAFAFA]">
       <Navbar />
-      <div className="flex-grow mb-5 w-full">
+      <div className="min-h-screen h-fit flex-grow mb-5 w-full">
         <Outlet />
       </div>
       <Footer />

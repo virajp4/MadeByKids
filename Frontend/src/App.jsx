@@ -3,7 +3,8 @@ import { RouterProvider, createBrowserRouter, useLocation } from "react-router-d
 
 import "./App.css";
 
-import Layout from "./components/Layout/Layout";
+import Layout from "./components/Layouts/HomeLayout/Layout";
+import ProductLayout from "./components/Layouts/ProductLayout/ProductLayout";
 import HomePage from "./components/HomePage/HomePage";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Product from "./components/ProductsPage/Product";
@@ -17,8 +18,9 @@ function App() {
         { index: true, element: <HomePage /> },
         {
           path: "shop",
-          element: <ProductsPage />,
+          element: <ProductLayout />,
           children: [
+            { index: true, element: <ProductsPage /> },
             {
               path: ":productId",
               id: "product-detail",
@@ -26,10 +28,10 @@ function App() {
               children: [{ path: "edit", element: <h1>Edit Product</h1>, id: "edit-product" }],
             },
             {
-              path: 'new',
+              path: "new",
               element: <h1>New Product</h1>,
-              id: 'new-product'
-            }
+              id: "new-product",
+            },
           ],
         },
         { path: "*", element: <h1>404 Not Found</h1> },
