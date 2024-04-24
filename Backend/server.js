@@ -4,6 +4,7 @@ const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 const app = express();
 const port = 5000;
+const bcrypt = require('bcrypt');
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -21,6 +22,42 @@ db.connect((err) => {
   }
   console.log('Connected to MySQL database');
 }); 
+
+app.post('/register', (req, res)=> {
+  const userPhone = req.body.userPhone;
+  const userPassword = req.body.userPassword;
+  const saltRound = 10;
+  bcrypt.hash(userPassword,saltRound, (err, hashPassword) => {
+    if (err) {
+             console.log(err)
+         }
+        db.execute("INSERT INTO users1 (username, password) VALUES (?,?)", [userPhone, hashPassword], (err, result)=> {
+        console.log(err);
+        }
+      );
+  });
+});
+
+app.post('/login', (req, res) => {
+  const userPhone = req.body.userPhone;
+  const userPassword = req.body.userPassword;
+  
+  db.execute("SELECT * FROM users1 WHERE userPhone = ?;", [userPhone], (err, result)=> {
+          if (err) {
+              res.send({err: err});
+          }
+          if (result.length > 0) {
+            bcrypt.compare(userPassword, result[0].userPassword, (error, response) => {
+              if (response) {
+                  res.send(result);
+              } else{
+                  res.send({message: "Wrong username/ password comination!"}); 
+              }
+          });
+    } else res.send({message: "User doesn't exist!"});
+          }
+  );
+ });
 
 app.get('/users', (req, res) => {
   db.query('SELECT * FROM users', (err, result) => {
