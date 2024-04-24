@@ -8,6 +8,8 @@ import ProductLayout from "./components/Layouts/ProductLayout/ProductLayout";
 import HomePage from "./components/HomePage/HomePage";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Product from "./components/ProductsPage/Product";
+import LoginPage from "./components/AuthPage/LoginPage";
+import RegisterPage from "./components/AuthPage/RegisterPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -33,6 +35,14 @@ function App() {
               id: "new-product",
             },
           ],
+        },
+        {
+          path: "login",
+          element: <LoginPage />
+        },
+        {
+          path: "register",
+          element: <RegisterPage />
         },
         { path: "*", element: <h1>404 Not Found</h1> },
       ],
