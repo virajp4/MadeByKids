@@ -6,12 +6,14 @@ import Footer from "./Footer";
 
 export default function Layout() {
   return (
-    <div className="h-fit max-w-screen bg-[#FAFAFA]">
-      <Navbar />
-      <div className="min-h-screen h-fit flex-grow mb-5 w-full">
-        <Outlet />
+    <>
+      <div className="bg-[#FAFAFA] font-inter w-screen min-h-screen flex flex-col">
+        <Navbar />
+        <div className="flex-grow flex justify-center items-center">
+          <Outlet />
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }
