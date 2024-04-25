@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-export default function Product({ name = "Black Tshirt", rating = 3, price = 12 }) {
+export default function Product({ name = "Coffee", rating = 3, price = 12 }) {
   const { productId } = useParams();
   const [imgs, setImgs] = useState([]);
 
@@ -25,9 +25,9 @@ export default function Product({ name = "Black Tshirt", rating = 3, price = 12 
   return (
     <div>
       <div className="p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
-        <div className="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
+        <div className="grid items-start grid-cols-1 lg:grid-cols-5 gap-6">
           <div id="default-carousel" className="lg:col-span-3 bg-gray-100 w-full lg:sticky top-0 text-center relative" data-carousel="slide">
-            <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
+            <div className="relative h-56 overflow-hidden rounded-xl md:h-96">
               {imgs.map((link, idx) => (
                 <div key={idx} className="hidden duration-700 ease-in-out" data-carousel-item>
                   <img
@@ -38,12 +38,12 @@ export default function Product({ name = "Black Tshirt", rating = 3, price = 12 
                 </div>
               ))}
             </div>
-            <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
+            <div className="absolute z-30 flex -translate-x-1/2 bottom-4 left-1/2 space-x-3 rtl:space-x-reverse">
               {imgs.map((link, idx) => (
                 <button
                   key={idx}
                   type="button"
-                  className="w-3 h-3 rounded-full"
+                  className="w-3 h-3 rounded-full border-2"
                   aria-current="true"
                   aria-label={`Slide ${idx}`}
                   data-carousel-slide-to={idx}

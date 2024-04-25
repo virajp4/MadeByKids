@@ -7,7 +7,7 @@ import ProductsGrid from "../ProductsPage/ProductsGrid";
 export default function HomePage() {
   return (
     <div>
-      <div className="bg-black w-100 h-[200px]"></div>
+      <div className="bg-black h-[200px]"></div>
       <CategoryCarousel visibleItems={3} />
       <ProductsGrid limit={2} />
       <div className="flex justify-center items-center">
