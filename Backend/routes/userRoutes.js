@@ -1,13 +1,15 @@
 const router = require("express").Router();
+const { v4: uuidv4 } = require("uuid");
 
-const db = require("../util/connectdb.js");
+const { checkAuth } = require("../util/auth");
+const db = require("../util/db.js");
 
 router.get("/", (req, res) => {
   db.query("SELECT * FROM users", (err, result) => {
     if (err) {
       throw err;
     }
-    res.send(result);
+    res.send({ users: result });
   });
 });
 
@@ -16,11 +18,13 @@ router.get("/:id", (req, res) => {
     if (err) {
       throw err;
     }
-    res.send(result);
+    res.send({ user: result[0] });
   });
 });
 
-router.post("/", (req, res) => {
+router.use(checkAuth);
+
+router.patch("/", (req, res) => {
   const { userName, userOccupation, userPhone, userAddress, userCity, userPinCode, userRole } = req.body;
   const userId = uuidv4().replace(/-/gi, "");
   db.query(
@@ -29,7 +33,7 @@ router.post("/", (req, res) => {
       if (err) {
         throw err;
       }
-      res.send(result);
+      res.send({ message: "User created." });
     }
   );
 });
@@ -39,7 +43,7 @@ router.delete("/:id", (req, res) => {
     if (err) {
       throw err;
     }
-    res.send(result);
+    res.send({ message: "User deleted." });
   });
 });
 

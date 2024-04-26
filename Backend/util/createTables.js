@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 
-const db = require("./connectdb");
+const db = require("./db");
 
 function childTable(val) {
   const create =
@@ -70,4 +70,10 @@ function createTables() {
   console.log("Tables created");
 }
 
-module.exports = { createTables, deleteTables };
+function resetTables() {
+  deleteTables();
+  createTables();
+  console.log("Tables reset");
+}
+
+module.exports = { resetTables };

@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { createTables, deleteTables } = require("./util/createTables");
+const { resetTables } = require("./util/createTables");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -12,8 +12,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// deleteTables();
-// createTables();
+// resetTables();
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/children", childrenRoutes);

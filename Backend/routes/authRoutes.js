@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 
-const db = require("../util/connectdb.js");
+const db = require("../util/db.js");
 const { isValidPhone, isValidPassword } = require("../util/validation.js");
 const { createJSONToken, validatePassword, hashPassword } = require("../util/auth.js");
 
@@ -13,7 +13,7 @@ router.post("/register", async (req, res, next) => {
   if (!isValidPhone(userPhone)) errors.phone = "Invalid phone number.";
   if (!isValidPassword(userPassword)) errors.password = "Invalid password. Must be 6 characters long.";
 
-  db.query("SELECT * FROM users WHERE userPhone = ?", [userPhone], (err, results) => {
+  db.query("SELECT * FROM users WHERE userPhone = ?", [userPhone], async (err, results) => {
     if (err) throw err;
     if (results[0]) errors.exists = "Phone number already exists.";
 
@@ -22,19 +22,19 @@ router.post("/register", async (req, res, next) => {
         message: "User signup failed due to validation errors.",
         errors,
       });
+    } else {
+      try {
+        const hashedPassword = await hashPassword(userPassword);
+        const authToken = createJSONToken(userPhone);
+        const userId = uuidv4().replace(/-/gi, "");
+
+        db.query("INSERT INTO users (userId, userPhone, userPassword) VALUES (?, ?, ?)", [userId, userPhone, hashedPassword]);
+        res.status(201).send({ message: "User created.", token: authToken });
+      } catch (error) {
+        next(error);
+      }
     }
   });
-
-  try {
-    const hashedPassword = await hashPassword(userPassword);
-    const authToken = createJSONToken(userPhone);
-    const userId = uuidv4().replace(/-/gi, "");
-
-    db.query("INSERT INTO users (userId, userPhone, userPassword) VALUES (?, ?, ?)", [userId, userPhone, hashedPassword]);
-    res.status(201).send({ message: "User created.", token: authToken });
-  } catch (error) {
-    next(error);
-  }
 });
 
 router.post("/login", async (req, res) => {
@@ -53,7 +53,6 @@ router.post("/login", async (req, res) => {
       return res.status(422).send({ message: "Invalid credentials.", errors: { credentials: "Invalid phone or password entered." } });
 
     const token = createJSONToken(userPhone);
-
     res.status(200).send({ message: "User logged in.", token });
   });
 });
