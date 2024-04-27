@@ -17,7 +17,7 @@ function childTable(val) {
 
 function prodTable(val) {
   const create =
-    "CREATE TABLE IF NOT EXISTS products (productId char(36) NOT NULL PRIMARY KEY, productName VARCHAR(25), productPrice FLOAT, productDetails varchar(255), childId char(36), FOREIGN KEY (childId) REFERENCES children(childId))";
+    "CREATE TABLE IF NOT EXISTS products (productId char(36) NOT NULL PRIMARY KEY, productName VARCHAR(25), productPrice FLOAT, productDetails varchar(255), inventory INT, childId char(36), FOREIGN KEY (childId) REFERENCES children(childId))";
   const del = "DROP TABLE IF EXISTS products";
 
   const command = val === 0 ? del : create;
@@ -54,11 +54,39 @@ function userTable(val) {
   });
 }
 
+function cartTable(val) {
+  const create =
+    "CREATE TABLE IF NOT EXISTS cart (cartId char(36) NOT NULL PRIMARY KEY, userId char(36), FOREIGN KEY (userId) REFERENCES users(userId))";
+  const del = "DROP TABLE IF EXISTS cart";
+
+  const command = val === 0 ? del : create;
+  db.query(command, (err, result) => {
+    if (err) {
+      throw err;
+    }
+  });
+}
+
+function cartItemsTable(val) {
+  const create =
+    "CREATE TABLE IF NOT EXISTS cartItems (cartDetailId char(36) NOT NULL PRIMARY KEY, cartId char(36), productId char(36), quantity INT, FOREIGN KEY (productId) REFERENCES products(productId), FOREIGN KEY (cartId) REFERENCES cart(cartId))";
+  const del = "DROP TABLE IF EXISTS cartItems";
+
+  const command = val === 0 ? del : create;
+  db.query(command, (err, result) => {
+    if (err) {
+      throw err;
+    }
+  });
+}
+
 function deleteTables() {
   reviewTable(0);
   prodTable(0);
   childTable(0);
   userTable(0);
+  cartTable(0);
+  cartItemsTable(0);
   console.log("Tables deleted");
 }
 
@@ -67,6 +95,8 @@ function createTables() {
   childTable(1);
   prodTable(1);
   reviewTable(1);
+  cartTable(1);
+  cartItemsTable(1);
   console.log("Tables created");
 }
 
