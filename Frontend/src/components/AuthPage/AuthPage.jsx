@@ -4,7 +4,6 @@ import { json, redirect } from "react-router-dom";
 import AuthSection from "./AuthSection";
 
 export default function AuthPage() {
-  console.log(import.meta.env.VITE_BACKEND_URL);
   return <AuthSection />;
 }
 

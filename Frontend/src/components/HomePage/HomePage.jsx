@@ -9,7 +9,7 @@ export default function HomePage() {
     <div>
       <div className="bg-black h-[200px]"></div>
       <CategoryCarousel visibleItems={3} />
-      <ProductsGrid limit={2} />
+      <ProductsGrid limit={4} />
       <div className="flex justify-center items-center">
         <Link to={"/shop"} className=" w-50 px-16 py-3 bg-yellow-300 shadow-xl hover:bg-yellow-400 border-black rounded-full">
           Start Shopping
