@@ -80,6 +80,19 @@ function cartItemsTable(val) {
   });
 }
 
+function mediaTable(val) {
+  const create =
+    "CREATE TABLE IF NOT EXISTS media (mediaId char(36) NOT NULL PRIMARY KEY, imageEncoded varchar(255), videoUrl varchar(255), productId char(36), userId char(36), FOREIGN KEY (productId) REFERENCES products(productId), FOREIGN KEY (userId) REFERENCES users(userId)";
+  const del = "DROP TABLE IF EXISTS media";
+
+  const command = val === 0 ? del : create;
+  db.query(command, (err, result) => {
+    if (err) {
+      throw err;
+    }
+  });
+}
+
 function deleteTables() {
   reviewTable(0);
   prodTable(0);
@@ -87,6 +100,7 @@ function deleteTables() {
   userTable(0);
   cartTable(0);
   cartItemsTable(0);
+  mediaTable(0);
   console.log("Tables deleted");
 }
 
@@ -97,6 +111,7 @@ function createTables() {
   reviewTable(1);
   cartTable(1);
   cartItemsTable(1);
+  mediaTable(1);
   console.log("Tables created");
 }
 
