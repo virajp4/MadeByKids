@@ -9,7 +9,7 @@ import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Product from "./components/ProductsPage/Product";
 import AuthPage, { action as authAction } from "./components/AuthPage/AuthPage";
 import { action as LogoutAction } from "./components/AuthPage/Logout";
-
+import TalentDetails from "./components/talentpage/talentDetails";
 import { checkAuthLoader, tokenLoader } from "./utils/auth";
 
 function App() {
@@ -49,6 +49,10 @@ function App() {
         {
           path: "logout",
           action: LogoutAction,
+        },
+        {
+          path: "talent",
+          element: <TalentDetails />
         },
         { path: "*", element: <h1>404 Not Found</h1> },
       ],
