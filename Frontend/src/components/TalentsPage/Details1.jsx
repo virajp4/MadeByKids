@@ -1,29 +1,20 @@
 import React from "react";
-import { useState } from "react";
 import { Datepicker } from "flowbite-react";
 
-export default function Details1({ handleSubmit, inputData }) {
-  const [data, setData] = useState(inputData);
+function get18YearsAgo() {
+  let d = new Date();
+  d.setFullYear(d.getFullYear() - 18);
+  d = d.toISOString().split("T")[0];
+  d = d.split("-")[0];
+  return d;
+}
 
-  function submitForm(e) {
-    e.preventDefault();
-    handleSubmit(data);
-  }
-
-  function handleChange(e, isDate = false) {
-    if (isDate) {
-      setData({ ...data, dob: e });
-      return;
-    } else {
-      setData({ ...data, [e.target.name]: e.target.value });
-    }
-  }
-
+export default function Details1({ handleSubmit, handleChange, data }) {
   return (
     <div className="flex flex-col gap-5 p-5">
       <h1 className="text-2xl font-semibold text-gray-900">Add Talent Details</h1>
       <div>
-        <form onSubmit={submitForm}>
+        <form onSubmit={handleSubmit}>
           <div className="grid gap-6 mb-6 md:grid-cols-2">
             <div>
               <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
@@ -44,7 +35,12 @@ export default function Details1({ handleSubmit, inputData }) {
               <label htmlFor="dob" className="block mb-2 text-sm font-medium text-gray-900">
                 Date of Birth
               </label>
-              <Datepicker id="dob" name="dob" onSelectedDateChanged={(date) => handleChange(date, true)} required />
+              <Datepicker
+                id="dob"
+                name="dob"
+                onSelectedDateChanged={(date) => handleChange(date, true)}
+                defaultDate={new Date(get18YearsAgo(), 0, 1)}
+              />
             </div>
             <div>
               <label htmlFor="gender" className="block mb-2 text-sm font-medium text-gray-900">
@@ -54,7 +50,7 @@ export default function Details1({ handleSubmit, inputData }) {
                 required
                 id="gender"
                 name="gender"
-                defaultValue={data.gender}
+                value={data.gender}
                 onChange={handleChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               >
@@ -156,24 +152,6 @@ export default function Details1({ handleSubmit, inputData }) {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="flex items-start mb-6">
-            <div className="flex items-center h-5">
-              <input
-                id="remember"
-                type="checkbox"
-                value=""
-                className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
-                required
-              />
-            </div>
-            <label htmlFor="remember" className="ms-2 text-sm font-medium text-gray-900">
-              I agree with the{" "}
-              <a href="#" className="text-blue-600 hover:underline">
-                terms and conditions
-              </a>
-              .
-            </label>
           </div>
           <button
             type="submit"

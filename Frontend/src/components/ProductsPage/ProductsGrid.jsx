@@ -1,4 +1,5 @@
 import ProductGridItem from "./ProductGridItem";
+import CategoryCheckbox from "../partials/CategoryCheckbox";
 
 const prods = [
   {
@@ -43,26 +44,7 @@ const prods = [
   },
 ];
 
-function Cats({ name, id }) {
-  return (
-    <li>
-      <div className="flex items-center p-2 rounded hover:bg-gray-200 ">
-        <input
-          id={`checkbox-item-${id}`}
-          type="checkbox"
-          value=""
-          className="w-4 h-4 text-blue-600 bg-gray-300 border-gray-300 rounded focus:ring-blue-500"
-        />
-        <label htmlFor={`checkbox-item-${id}`} className="w-full ms-2 text-sm font-medium text-gray-900 rounded">
-          {name}
-        </label>
-      </div>
-    </li>
-  );
-}
-
 export default function ProductsGrid({ limit }) {
-  const categories = ["Embroidery", "Decor", "Gifts", "Jewellery", "Books", "Crafts", "Fashion", "Music", "Clothing", "Sports", "Crafts"];
   return (
     <div className="">
       <div className="px-6 my-4">
@@ -84,9 +66,7 @@ export default function ProductsGrid({ limit }) {
             </button>
             <div id="dropdownBgHover" className="z-10 hidden w-48 bg-white rounded-lg shadow ">
               <ul className="p-3 space-y-1 text-sm text-gray-700 " aria-labelledby="dropdownBgHoverButton">
-                {categories.map((c, idx) => (
-                  <Cats key={idx} id={idx} name={c} />
-                ))}
+                <CategoryCheckbox />
               </ul>
             </div>
             <div className="relative w-full">

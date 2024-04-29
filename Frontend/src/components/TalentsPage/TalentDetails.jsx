@@ -1,5 +1,6 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 import Details1 from "./Details1";
 import Details2 from "./Details2";
@@ -13,30 +14,48 @@ function TalentDetails() {
     school: "",
     location: "",
     sponsorship: "",
+    skills: "",
+    description: "",
+    images: [],
+    videos: [],
+    certificates: [],
   });
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
+
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/children/0`).then((res) => {
+      const child = res.data.child;
+      console.log("set data after recieving from backend", child);
+    });
+  }, []);
 
   function onChangeForm(e, isDate = false) {
     if (isDate) {
-      setTalentData({ ...talentData, dob: e });
+      const year = e.getFullYear();
+      const month = e.getMonth() + 1;
+      const day = e.getDate();
+      const date = `${day}-${month}-${year}`;
+      setTalentData({ ...talentData, dob: date });
       return;
     } else {
       setTalentData({ ...talentData, [e.target.name]: e.target.value });
     }
   }
 
-  function onSubmit(data) {
-    setTalentData(data);
-    onNext();
+  function onSubmitForm(e) {
+    e.preventDefault();
+    console.log(talentData);
   }
 
-  function onNext() {
+  function onNext(e) {
+    e.preventDefault();
     if (step < 1) {
       setStep(step + 1);
     }
   }
 
-  function onPrev() {
+  function onPrev(e) {
+    e.preventDefault();
     if (step > 0) {
       setStep(step - 1);
     }
@@ -44,8 +63,8 @@ function TalentDetails() {
 
   return (
     <>
-      {step === 0 && <Details1 handleSubmit={onSubmit} inputData={talentData} />}
-      {step === 1 && <Details2 />}
+      {step === 0 && <Details1 handleSubmit={onNext} handleChange={onChangeForm} data={talentData} />}
+      {step === 1 && <Details2 handleSubmit={onSubmitForm} handleChange={onChangeForm} data={talentData} handleBack={onPrev} />}
     </>
   );
 }
