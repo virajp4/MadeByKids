@@ -9,7 +9,7 @@ import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Product from "./components/ProductsPage/Product";
 import AuthPage, { action as authAction } from "./components/AuthPage/AuthPage";
 import { action as LogoutAction } from "./components/AuthPage/Logout";
-import TalentDetails from "./components/talentpage/talentDetails";
+import TalentDetails from "./components/TalentsPage/TalentDetails";
 import { checkAuthLoader, tokenLoader } from "./utils/auth";
 
 function App() {
@@ -29,9 +29,7 @@ function App() {
             {
               path: ":productId",
               element: <Product />,
-              children: [
-                { path: "edit", element: <h1>Edit Product</h1>, loader: checkAuthLoader }
-              ],
+              children: [{ path: "edit", element: <h1>Edit Product</h1>, loader: checkAuthLoader }],
             },
             {
               path: "new",
@@ -52,7 +50,7 @@ function App() {
         },
         {
           path: "talent",
-          element: <TalentDetails />
+          element: <TalentDetails />,
         },
         { path: "*", element: <h1>404 Not Found</h1> },
       ],
