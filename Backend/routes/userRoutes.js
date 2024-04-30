@@ -2,7 +2,10 @@ const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 
 const { checkAuth } = require("../util/auth");
+const childrenRoutes = require("./childrenRoutes");
 const db = require("../util/db.js");
+
+router.use(checkAuth);
 
 router.get("/", (req, res) => {
   db.query("SELECT * FROM users", (err, result) => {
@@ -22,7 +25,7 @@ router.get("/:id", (req, res) => {
   });
 });
 
-router.use(checkAuth);
+router.use("/:id/children", childrenRoutes);
 
 router.patch("/", (req, res) => {
   const { userName, userOccupation, userPhone, userAddress, userCity, userPinCode, userRole } = req.body;

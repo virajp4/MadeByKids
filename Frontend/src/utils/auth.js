@@ -35,7 +35,21 @@ function checkAuthLoader() {
   if (!token) {
     return redirect("/auth?mode=login");
   }
+
+  if (token === "EXPIRED") {
+    return redirect("/auth?mode=login");
+  }
+
   return token;
 }
 
-export { getAuthToken, checkAuthLoader, tokenLoader, getTokenDuration };
+function parseJwt(token) {
+  try {
+    const parsed = JSON.parse(atob(token.split(".")[1]));
+    return parsed.userId;
+  } catch (e) {
+    return null;
+  }
+};
+
+export { getAuthToken, checkAuthLoader, tokenLoader, getTokenDuration, parseJwt };

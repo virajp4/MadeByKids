@@ -2,14 +2,20 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import "./App.css";
 
+import UserContextProvider from "./store/UserContext";
+
 import Layout from "./components/Layouts/HomeLayout/Layout";
 import ProductLayout from "./components/Layouts/ProductLayout/ProductLayout";
+import UserLayout from "./components/Layouts/UserLayout/UserLayout";
+import ChildLayout from "./components/Layouts/UserLayout/ChildLayout";
+
 import HomePage from "./components/HomePage/HomePage";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Product from "./components/ProductsPage/Product";
 import AuthPage, { action as authAction } from "./components/AuthPage/AuthPage";
 import { action as LogoutAction } from "./components/AuthPage/Logout";
-import TalentDetails from "./components/TalentsPage/TalentDetails";
+import TalentDetails, {action as submitTalent} from "./components/TalentsPage/TalentDetails";
+
 import { checkAuthLoader, tokenLoader } from "./utils/auth";
 
 function App() {
@@ -40,6 +46,36 @@ function App() {
           ],
         },
         {
+          path: "user",
+          element: <UserLayout />,
+          loader: checkAuthLoader,
+          id: "user",
+          children: [
+            { index: true, element: <h1>User Profile</h1> },
+            {
+              path: "children",
+              element: <ChildLayout />,
+              children: [
+                { index: true, element: <h1>Child Profile</h1> },
+                {
+                  path: "new",
+                  element: <TalentDetails />,
+                  action: submitTalent,
+                },
+                {
+                  path: ":childId",
+                  element: <h1>Child Profile</h1>,
+                  children: [{ path: "edit", element: <TalentDetails /> }],
+                },
+              ],
+            },
+            {
+              path: "settings",
+              element: <h1>User Settings</h1>,
+            },
+          ],
+        },
+        {
           path: "auth",
           element: <AuthPage />,
           action: authAction,
@@ -48,16 +84,18 @@ function App() {
           path: "logout",
           action: LogoutAction,
         },
-        {
-          path: "talent",
-          element: <TalentDetails />,
-        },
         { path: "*", element: <h1>404 Not Found</h1> },
       ],
     },
   ]);
 
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <>
+      <UserContextProvider>
+        <RouterProvider router={router}></RouterProvider>;
+      </UserContextProvider>
+    </>
+  );
 }
 
 export default App;

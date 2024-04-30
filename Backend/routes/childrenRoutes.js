@@ -4,8 +4,11 @@ const { v4: uuidv4 } = require("uuid");
 const { checkAuth } = require("../util/auth");
 const db = require("../util/db.js");
 
+router.use(checkAuth);
+
 router.get("/", (req, res) => {
-  db.query("SELECT * FROM children", (err, result) => {
+  const userId  = req.params.id;
+  db.query(`SELECT * FROM children WHERE userId = '${userId}'`, (err, result) => {
     if (err) {
       throw err;
     }
@@ -13,16 +16,14 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/:id", (req, res) => {
-  db.query(`SELECT * FROM children WHERE childId = '${req.params.id}'`, (err, result) => {
+router.get("/:cid", (req, res) => {
+  db.query(`SELECT * FROM children WHERE childId = '${req.params.cid}'`, (err, result) => {
     if (err) {
       throw err;
     }
     res.send({ child: result[0] });
   });
 });
-
-router.use(checkAuth);
 
 router.post("/", (req, res) => {
   const { childName, childAge, childStandard, childSchool, childSkillCategory, userId } = req.body;
@@ -38,7 +39,7 @@ router.post("/", (req, res) => {
   );
 });
 
-router.patch("/:id", (req, res) => {
+router.patch("/:cid", (req, res) => {
   const { childName, childAge, childStandard, childSchool, childSkillCategory, userId } = req.body;
   db.query(
     `UPDATE children SET childName = '${childName}', childAge = ${childAge}, childStandard = ${childStandard}, childSchool = '${childSchool}', childSkillCategory = '${childSkillCategory}', userId = '${userId}' WHERE childId = '${req.params.id}'`,
@@ -51,8 +52,8 @@ router.patch("/:id", (req, res) => {
   );
 });
 
-router.delete("/:id", (req, res) => {
-  db.query(`DELETE FROM children WHERE childId = '${req.params.id}'`, (err, result) => {
+router.delete("/:cid", (req, res) => {
+  db.query(`DELETE FROM children WHERE childId = '${req.params.cid}'`, (err, result) => {
     if (err) {
       throw err;
     }

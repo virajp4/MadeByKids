@@ -77,17 +77,17 @@ export default function AuthSection() {
                     <label htmlFor="userPhone" className="block mb-2 text-sm font-medium text-gray-900">
                       Phone Number
                     </label>
-                    <div class="flex items-center mt-2">
-                      <div class="flex-shrink-0 inline-flex items-center py-2.5 px-3 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:cursor-default">
+                    <div className="flex items-center mt-2">
+                      <div className="flex-shrink-0 inline-flex items-center py-2.5 px-3 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:cursor-default">
                         +91{" "}
                       </div>
-                      <div class="relative w-full">
+                      <div className="relative w-full">
                         <input
                           type="number"
                           name="userPhone"
                           id="userPhone"
                           aria-describedby="helper-text-explanation"
-                          class={`block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 
+                          className={`block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-0 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 
                             ${!isLogin ? `cursor-not-allowed` : ``}`}
                           placeholder="1234567890"
                           value={formData["userPhone"]}

@@ -5,7 +5,6 @@ const { resetTables } = require("./util/createTables");
 
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
-const childrenRoutes = require("./routes/childrenRoutes");
 const shopRoutes = require("./routes/shopRoutes");
 
 app.use(cors());
@@ -15,7 +14,6 @@ app.use(express.json());
 // resetTables();
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
-app.use("/children", childrenRoutes);
 app.use("/shop", shopRoutes);
 
 const port = 5000;

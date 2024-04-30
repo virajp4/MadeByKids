@@ -13,10 +13,6 @@ const pages = [
     link: "/shop",
   },
   {
-    name: "Contact Us",
-    link: "/contact",
-  },
-  {
     name: "Login",
     link: "/auth?mode=login",
   },

@@ -25,8 +25,8 @@ router.post("/register", async (req, res, next) => {
     } else {
       try {
         const hashedPassword = await hashPassword(userPassword);
-        const authToken = createJSONToken(userPhone);
         const userId = uuidv4().replace(/-/gi, "");
+        const authToken = createJSONToken(userId);
 
         db.query("INSERT INTO users (userId, userPhone, userPassword) VALUES (?, ?, ?)", [userId, userPhone, hashedPassword]);
         res.status(201).send({ message: "User created.", token: authToken });
@@ -52,7 +52,7 @@ router.post("/login", async (req, res) => {
     if (!validPassword)
       return res.status(422).send({ message: "Invalid credentials.", errors: { credentials: "Invalid phone or password entered." } });
 
-    const token = createJSONToken(userPhone);
+    const token = createJSONToken(user.userId);
     res.status(200).send({ message: "User logged in.", token });
   });
 });

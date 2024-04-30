@@ -4,8 +4,8 @@ const { NotAuthError } = require("./errors");
 
 const KEY = "secret";
 
-function createJSONToken(phone) {
-  return sign({ phone }, KEY, { expiresIn: "24h" });
+function createJSONToken(userId) {
+  return sign({ userId }, KEY, { expiresIn: "24h" });
 }
 
 function validateJSONToken(token) {
