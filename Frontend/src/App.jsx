@@ -13,8 +13,9 @@ import HomePage from "./components/HomePage/HomePage";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Product from "./components/ProductsPage/Product";
 import AuthPage, { action as authAction } from "./components/AuthPage/AuthPage";
-import { action as LogoutAction } from "./components/AuthPage/Logout";
-import TalentDetails, {action as submitTalent} from "./components/TalentsPage/TalentDetails";
+import TalentDetails, { action as submitTalent } from "./components/TalentsPage/TalentDetails";
+import UserPage from "./components/UserPage/UserPage";
+import CreateUser, { action as createUserAction } from "./components/UserPage/CreateUser";
 
 import { checkAuthLoader, tokenLoader } from "./utils/auth";
 
@@ -51,7 +52,7 @@ function App() {
           loader: checkAuthLoader,
           id: "user",
           children: [
-            { index: true, element: <h1>User Profile</h1> },
+            { index: true, element: <UserPage /> },
             {
               path: "children",
               element: <ChildLayout />,
@@ -73,16 +74,17 @@ function App() {
               path: "settings",
               element: <h1>User Settings</h1>,
             },
+            {
+              path: "create",
+              element: <CreateUser />,
+              action: createUserAction,
+            },
           ],
         },
         {
           path: "auth",
           element: <AuthPage />,
           action: authAction,
-        },
-        {
-          path: "logout",
-          action: LogoutAction,
         },
         { path: "*", element: <h1>404 Not Found</h1> },
       ],
@@ -92,7 +94,7 @@ function App() {
   return (
     <>
       <UserContextProvider>
-        <RouterProvider router={router}></RouterProvider>;
+        <RouterProvider router={router}></RouterProvider>
       </UserContextProvider>
     </>
   );

@@ -28,7 +28,7 @@ router.post("/register", async (req, res, next) => {
         const userId = uuidv4().replace(/-/gi, "");
         const authToken = createJSONToken(userId);
 
-        db.query("INSERT INTO users (userId, userPhone, userPassword) VALUES (?, ?, ?)", [userId, userPhone, hashedPassword]);
+        db.query("INSERT INTO users (userId, userPhone, userPassword, newUser) VALUES (?, ?, ?, ?)", [userId, userPhone, hashedPassword, 1]);
         res.status(201).send({ message: "User created.", token: authToken });
       } catch (error) {
         next(error);

@@ -88,21 +88,19 @@ export async function action({ request }) {
   const token = getAuthToken();
   const userId = parseJwt(token);
 
-  console.log("data", data, userId);
-
   try {
     const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}/children/`, {
       headers: {
         Authorization: `Bearer ${token}`,
-      }
+      },
+      data,
     });
 
     if (response.status !== 200) {
       throw new Error("Failed to post data");
     }
-
-    console.log("works");
-    return response.data; // or some redirection logic
+    
+    return response.data;
   } catch (error) {
     console.error("Error posting data:", error);
     throw new Error(error.response.data.message || "Unknown error");

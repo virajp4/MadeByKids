@@ -7,18 +7,38 @@ const pages = [
   {
     name: "Home",
     link: "/",
+    condition: () => true,
   },
   {
     name: "Shop",
     link: "/shop",
+    condition: () => true,
   },
   {
     name: "Login",
     link: "/auth?mode=login",
+    condition: (token) => !token,
   },
   {
     name: "Register",
     link: "/auth?mode=register",
+    condition: (token) => !token,
+  },
+  {
+    name: "User",
+    link: "/user",
+    condition: (token) => token,
+  },
+  {
+    name: "Talents",
+    link: "/talents",
+    condition: (token) => token,
+  },
+  {
+    name: "Logout",
+    link: "/logout",
+    condition: (token) => token,
+    isLogout: true,
   },
 ];
 
@@ -50,15 +70,11 @@ export default function Navbar() {
         <div className="hidden w-full md:block md:w-auto" id="navbar-default">
           <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 bg-gray-800 md:bg-gray-900 border-gray-700">
             {pages.map((page) => {
-              if (page.name === "Login" && token) return null;
-              if (page.name === "Register" && token) return null;
-              return <NavItem key={page.name} title={page.name} href={page.link} />;
+              if (page.condition(token)) {
+                return <NavItem key={page.name} title={page.name} href={page.link} isLogout={page.isLogout} />;
+              }
+              return null;
             })}
-            {token && (
-              <Form className={navClass} action="/logout" method="POST">
-                <button>Logout</button>
-              </Form>
-            )}
           </ul>
         </div>
       </div>

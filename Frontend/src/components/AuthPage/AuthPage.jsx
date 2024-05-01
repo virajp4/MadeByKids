@@ -1,6 +1,7 @@
 import React from "react";
 import { json, redirect } from "react-router-dom";
 
+import { parseJwt } from "../../utils/auth";
 import AuthSection from "./AuthSection";
 
 export default function AuthPage() {
@@ -40,6 +41,7 @@ export async function action({ request }) {
 
   const resData = await response.json();
   const token = resData.token;
+  const userId = parseJwt(token);
 
   localStorage.setItem("token", token);
   const expiration = new Date();

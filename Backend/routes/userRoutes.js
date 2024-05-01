@@ -27,11 +27,12 @@ router.get("/:id", (req, res) => {
 
 router.use("/:id/children", childrenRoutes);
 
-router.patch("/", (req, res) => {
-  const { userName, userOccupation, userPhone, userAddress, userCity, userPinCode, userRole } = req.body;
-  const userId = uuidv4().replace(/-/gi, "");
+router.post("/:id", (req, res) => {
+  const userId = req.params.id;
+  const { userName, userAddress, userRole, userEmail } = req.body;
   db.query(
-    `INSERT INTO users (userId, userName, userOccupation, userPhone, userAddress, userCity, userPinCode, userRole) VALUES ('${userId}','${userName}', '${userOccupation}', '${userPhone}', '${userAddress}', '${userCity}', ${userPinCode}, '${userRole}')`,
+    `UPDATE users SET userName = ?, userAddress = ?, userEmail = ?, userRole = ?, newUser = 0 WHERE userId = ?`,
+    [userName, userAddress, userEmail, userRole, userId],
     (err, result) => {
       if (err) {
         throw err;
