@@ -4,7 +4,7 @@ const db = require("./db");
 
 function childTable(val) {
   const create =
-    "CREATE TABLE IF NOT EXISTS children (childId char(36) NOT NULL PRIMARY KEY, childName VARCHAR(255), childAge INT, childStandard INT, childSchool varchar(255), childSkillCategory SET('EMBROIDERY', 'GIFTS', 'DECOR', 'JEWELRY'), userId char(36), FOREIGN KEY (userId) REFERENCES users(userId))";
+    "CREATE TABLE IF NOT EXISTS children (childId char(36) NOT NULL PRIMARY KEY, childName VARCHAR(255), childDOB DATE, childClass INT, childSchool varchar(255), childWriteUp varchar(255), childRequireSponsor SET('YES', 'NO'), childGender SET('MALE', 'FEMALE', 'PREFER NOT TO SAY'), childSkillCategory SET('EMBROIDERY', 'GIFTS', 'DECOR', 'JEWELRY'), userId char(36), FOREIGN KEY (userId) REFERENCES users(userId))";
   const del = "DROP TABLE IF EXISTS children";
 
   const command = val === 0 ? del : create;
@@ -43,7 +43,7 @@ function reviewTable(val) {
 
 function userTable(val) {
   const create =
-    "CREATE TABLE IF NOT EXISTS users (userId char(36) NOT NULL PRIMARY KEY, userName VARCHAR(255), userPhone char(10), userPassword varchar(255), userOccupation varchar(255), userAddress varchar(255), userCity varchar(20), userPinCode int(6), userRole SET('BUYER', 'PARENT'))";
+    "CREATE TABLE IF NOT EXISTS users (userId char(36) NOT NULL PRIMARY KEY, userName VARCHAR(255), userPhone char(10), userPassword varchar(255), userAddress varchar(255), userCity varchar(20), userPinCode int(6), userEmail varchar(255), userRole SET('GUARDIAN', 'GUEST'), userLang SET('ENGLISH', 'TAMIL'))";
   const del = "DROP TABLE IF EXISTS users";
 
   const command = val === 0 ? del : create;
