@@ -14,7 +14,7 @@ import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Product from "./components/ProductsPage/Product";
 import AuthPage, { action as authAction } from "./components/AuthPage/AuthPage";
 import TalentDetails, { action as submitTalent } from "./components/TalentsPage/TalentDetails";
-import UserPage from "./components/UserPage/UserPage";
+import UserPage, { loader as userLoader } from "./components/UserPage/UserPage";
 import CreateUser, { action as createUserAction } from "./components/UserPage/CreateUser";
 
 import { checkAuthLoader, tokenLoader } from "./utils/auth";
@@ -52,7 +52,7 @@ function App() {
           loader: checkAuthLoader,
           id: "user",
           children: [
-            { index: true, element: <UserPage /> },
+            { index: true, element: <UserPage />, loader: userLoader },
             {
               path: "children",
               element: <ChildLayout />,

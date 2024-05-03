@@ -115,10 +115,10 @@ export default function Details1({ handleSubmit, handleChange, data }) {
             <div className="flex items-center">
               <input
                 required
-                checked={data.sponsorship === "Y"}
+                checked={data.sponsorship === "YES"}
                 id="sponsorshipY"
                 type="radio"
-                value="Y"
+                value="YES"
                 name="sponsorship"
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                 onChange={handleChange}
@@ -130,10 +130,10 @@ export default function Details1({ handleSubmit, handleChange, data }) {
             <div className="flex items-center">
               <input
                 required
-                checked={data.sponsorship === "N"}
+                checked={data.sponsorship === "NO"}
                 id="sponsorshipN"
                 type="radio"
-                value="N"
+                value="NO"
                 name="sponsorship"
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                 onChange={handleChange}

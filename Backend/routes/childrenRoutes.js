@@ -1,4 +1,4 @@
-const router = require("express").Router();
+const router = require("express").Router({ mergeParams: true });
 const { v4: uuidv4 } = require("uuid");
 
 const { checkAuth } = require("../util/auth");
@@ -7,7 +7,7 @@ const db = require("../util/db.js");
 router.use(checkAuth);
 
 router.get("/", (req, res) => {
-  const userId  = req.params.id;
+  const userId = req.params.id;
   db.query(`SELECT * FROM children WHERE userId = '${userId}'`, (err, result) => {
     if (err) {
       throw err;
@@ -26,17 +26,25 @@ router.get("/:cid", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { childName, childAge, childStandard, childSchool, childSkillCategory, userId } = req.body;
+  const userId = req.params.id;
+  const { name, dob, gender, class: classLevel, school, sponsorship, description } = req.body;
+
   const childId = uuidv4().replace(/-/gi, "");
-  db.query(
-    `INSERT INTO children (childId, childName, childAge, childStandard, childSchool, childSkillCategory, userId) VALUES ('${childId}', '${childName}', ${childAge}, ${childStandard}, '${childSchool}', '${childSkillCategory}', '${userId}')`,
-    (err, result) => {
-      if (err) {
-        throw err;
-      }
-      res.send({ message: "Child added." });
+
+  const sql = `
+    INSERT INTO children 
+    (childId, childName, childDOB, childGender, childClass, childSchool, childRequireSponsor, childWriteUp, userId) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  const values = [childId, name, dob, gender, classLevel, school, sponsorship, description, userId];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      throw err;
     }
-  );
+    res.send({ message: "Child added." });
+  });
 });
 
 router.patch("/:cid", (req, res) => {

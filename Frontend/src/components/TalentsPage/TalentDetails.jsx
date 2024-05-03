@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useLocation, useRouteLoaderData, useNavigate, Form } from "react-router-dom";
+import { useLocation, useRouteLoaderData, useNavigate, Form, redirect } from "react-router-dom";
 import axios from "axios";
 
 import { getAuthToken, parseJwt } from "../../utils/auth";
@@ -31,7 +31,7 @@ export default function TalentDetails() {
 
   // useEffect(() => {
   //   async function fetchData() {
-  //     axios.get(`${import.meta.env.VITE_BACKEND_URL}/children/0`).then((res) => {
+  //     axios.get(`${import.meta.env.VITE_BACKEND_URL}/children/`).then((res) => {
   //       const child = res.data.child;
   //       console.log("set data after recieving from backend", child);
   //     });
@@ -89,18 +89,17 @@ export async function action({ request }) {
   const userId = parseJwt(token);
 
   try {
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}/children/`, {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}/children/`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      data,
     });
 
     if (response.status !== 200) {
       throw new Error("Failed to post data");
     }
-    
-    return response.data;
+
+    return redirect("/user");
   } catch (error) {
     console.error("Error posting data:", error);
     throw new Error(error.response.data.message || "Unknown error");
