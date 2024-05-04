@@ -1,16 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 import Input from "../partials/Input";
 
-export default function CreateSection({ handleSubmit }) {
-  const [formData, setFormData] = useState({
-    userName: "",
-    userAddress: "",
-    userRole: "",
-    userEmail: "",
-    userLang: "",
-  });
+export default function CreateSection({ data }) {
+  const [formData, setFormData] = useState(data);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,18 +17,34 @@ export default function CreateSection({ handleSubmit }) {
           <label htmlFor="userRole" className="block mb-2 text-sm font-medium text-gray-900">
             Sign up as
           </label>
-          <select
-            required
-            id="userRole"
-            name="userRole"
-            value={formData.userRole}
-            onChange={handleChange}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          >
-            <option value="">Select Account Type</option>
-            <option value="GUARDIAN">Guardian</option>
-            <option value="GUEST">Guest</option>
-          </select>
+          {formData.newUser === 1 && (
+            <select
+              required
+              id="userRole"
+              name="userRole"
+              value={formData.userRole}
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+              <option value="">Select Account Type</option>
+              <option value="GUARDIAN">Guardian</option>
+              <option value="GUEST">Guest</option>
+            </select>
+          )}
+          {formData.newUser === 0 && (
+            <select
+              required
+              id="userRole"
+              name="userRole"
+              value={formData.userRole}
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            >
+              <option value="">Select Account Type</option>
+              <option value="GUARDIAN">Guardian</option>
+              {formData.userRole === "GUEST" && <option value="GUEST">Guest</option>}
+            </select>
+          )}
         </div>
         <Input name="userName" label="Name" value={formData.userName} handleChange={handleChange} required={true} />
         <Input name="userAddress" label="Address" value={formData.userAddress} handleChange={handleChange} required={true} />

@@ -13,9 +13,9 @@ import HomePage from "./components/HomePage/HomePage";
 import ProductsPage from "./components/ProductsPage/ProductsPage";
 import Product from "./components/ProductsPage/Product";
 import AuthPage, { action as authAction } from "./components/AuthPage/AuthPage";
-import TalentDetails, { action as submitTalent } from "./components/TalentsPage/TalentDetails";
+import TalentDetails from "./components/TalentsPage/TalentDetails";
 import UserPage, { loader as userLoader } from "./components/UserPage/UserPage";
-import CreateUser, { action as createUserAction } from "./components/UserPage/CreateUser";
+import CreateUser, { action as createUserAction, loader as newUserDataLoader } from "./components/UserPage/CreateUser";
 
 import { checkAuthLoader, tokenLoader } from "./utils/auth";
 
@@ -53,31 +53,29 @@ function App() {
           id: "user",
           children: [
             { index: true, element: <UserPage />, loader: userLoader },
+            { path: "new", element: <CreateUser />, action: createUserAction, loader: newUserDataLoader },
             {
               path: "children",
               element: <ChildLayout />,
               children: [
                 { index: true, element: <h1>Child Profile</h1> },
                 {
-                  path: "new",
+                  path: "create",
                   element: <TalentDetails />,
-                  action: submitTalent,
                 },
                 {
                   path: ":childId",
                   element: <h1>Child Profile</h1>,
-                  children: [{ path: "edit", element: <TalentDetails /> }],
+                },
+                {
+                  path: ":childId/edit",
+                  element: <TalentDetails />,
                 },
               ],
             },
             {
               path: "settings",
               element: <h1>User Settings</h1>,
-            },
-            {
-              path: "create",
-              element: <CreateUser />,
-              action: createUserAction,
             },
           ],
         },

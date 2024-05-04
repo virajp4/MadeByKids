@@ -29,10 +29,10 @@ router.use("/:id/children", childrenRoutes);
 
 router.post("/:id", (req, res) => {
   const userId = req.params.id;
-  const { userName, userAddress, userRole, userEmail } = req.body;
+  const { userName, userAddress, userRole, userEmail, userLang } = req.body;
   db.query(
-    `UPDATE users SET userName = ?, userAddress = ?, userEmail = ?, userRole = ?, newUser = 0 WHERE userId = ?`,
-    [userName, userAddress, userEmail, userRole, userId],
+    `UPDATE users SET userName = ?, userAddress = ?, userEmail = ?, userRole = ?, userLang = ?, newUser = 0 WHERE userId = ?`,
+    [userName, userAddress, userEmail, userRole, userLang, userId],
     (err, result) => {
       if (err) {
         throw err;

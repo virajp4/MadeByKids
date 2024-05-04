@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useLocation, useRouteLoaderData, useNavigate, Form, redirect } from "react-router-dom";
+import { useLocation, useLoaderData, useNavigate, Form, redirect } from "react-router-dom";
 import axios from "axios";
 
 import { getAuthToken, parseJwt } from "../../utils/auth";
@@ -9,37 +9,53 @@ import Details2 from "./Details2";
 
 export default function TalentDetails() {
   const [talentData, setTalentData] = useState({
-    name: "",
-    dob: "",
-    gender: "",
-    class: "",
-    school: "",
+    childName: "",
+    childDOB: "",
+    childGender: "",
+    childClass: "",
+    childSchool: "",
     location: "",
-    sponsorship: "",
-    skills: "",
-    description: "",
+    childRequireSponsor: "",
+    childSkillCategory: "",
+    childWriteUp: "",
     images: [],
     videos: [],
     certificates: [],
   });
+
   const [step, setStep] = useState(0);
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
   let link = pathname.split("/");
-  const isNew = link[link.length - 1] === "new";
+  const isNew = link[link.length - 1] === "create";
+  const childId = link[link.length - 2];
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     axios.get(`${import.meta.env.VITE_BACKEND_URL}/children/`).then((res) => {
-  //       const child = res.data.child;
-  //       console.log("set data after recieving from backend", child);
-  //     });
-  //   }
-  //   if (!isNew) {
-  //     fetchData();
-  //   }
-  // }, []);
+  useEffect(() => {
+    async function fetchData() {
+      const token = getAuthToken();
+      const userId = parseJwt(token);
+
+      try {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}/children/${childId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.status !== 200) {
+          throw new Error("Failed to get data");
+        }
+        setTalentData(response.data.child);
+      } catch (error) {
+        console.error("Error getting data:", error);
+        throw new Error(error.response.data.message || "Unknown error");
+      }
+    }
+
+    if (!isNew) {
+      fetchData();
+    }
+  }, []);
 
   function onChangeForm(e, isDate = false) {
     if (isDate) {
@@ -47,7 +63,7 @@ export default function TalentDetails() {
       const month = e.getMonth() + 1;
       const day = e.getDate();
       const date = `${day}-${month}-${year}`;
-      setTalentData({ ...talentData, dob: date });
+      setTalentData({ ...talentData, childDOB: date });
       return;
     } else {
       setTalentData({ ...talentData, [e.target.name]: e.target.value });
@@ -68,40 +84,68 @@ export default function TalentDetails() {
     }
   }
 
+  async function submitTalent(e) {
+    e.preventDefault();
+    const token = getAuthToken();
+    const userId = parseJwt(token);
+
+    const childData = talentData;
+
+    try {
+      let response;
+
+      if (isNew) {
+        response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}/children/`, childData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } else {
+        response = await axios.patch(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}/children/${childId}`, childData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+
+      if (response.status !== 200) {
+        throw new Error("Failed to post data");
+      }
+      console.log("Data posted successfully");
+      navigate("/user");
+    } catch (error) {
+      console.error("Error posting data:", error);
+      throw new Error(error.response.data.message || "Unknown error");
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col gap-5 p-5">
         <h1 className="text-2xl font-semibold text-gray-900">{isNew ? "Add" : "Edit"} Talent Details</h1>
         <div>
-          <Form method="POST">
+          <form onSubmit={submitTalent}>
             {step === 0 && <Details1 handleSubmit={onNext} handleChange={onChangeForm} data={talentData} />}
             {step === 1 && <Details2 handleChange={onChangeForm} data={talentData} handleBack={onPrev} isNew={isNew} />}
-          </Form>
+            {step === 1 && (
+              <div className="flex gap-4 justify-center items-center">
+                <button
+                  onClick={onPrev}
+                  className="text-black bg-slate-300 hover:bg-slate-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                >
+                  Back
+                </button>
+                <button
+                  type="submit"
+                  className="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                >
+                  {isNew ? "Save" : "Update"}
+                </button>
+              </div>
+            )}
+          </form>
         </div>
       </div>
     </>
   );
-}
-
-export async function action({ request }) {
-  const data = await request.formData();
-  const token = getAuthToken();
-  const userId = parseJwt(token);
-
-  try {
-    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}/children/`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (response.status !== 200) {
-      throw new Error("Failed to post data");
-    }
-
-    return redirect("/user");
-  } catch (error) {
-    console.error("Error posting data:", error);
-    throw new Error(error.response.data.message || "Unknown error");
-  }
 }

@@ -27,17 +27,17 @@ router.get("/:cid", (req, res) => {
 
 router.post("/", (req, res) => {
   const userId = req.params.id;
-  const { name, dob, gender, class: classLevel, school, sponsorship, description } = req.body;
+  const { childName, childClass, childGender, childSchool, childRequireSponsor, childWriteUp } = req.body;
 
   const childId = uuidv4().replace(/-/gi, "");
 
   const sql = `
     INSERT INTO children 
-    (childId, childName, childDOB, childGender, childClass, childSchool, childRequireSponsor, childWriteUp, userId) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (childId, childName, childGender, childClass, childSchool, childRequireSponsor, childWriteUp, userId) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
-  const values = [childId, name, dob, gender, classLevel, school, sponsorship, description, userId];
+  const values = [childId, childName, childGender, childClass, childSchool, childRequireSponsor, childWriteUp, userId];
 
   db.query(sql, values, (err, result) => {
     if (err) {
@@ -48,16 +48,22 @@ router.post("/", (req, res) => {
 });
 
 router.patch("/:cid", (req, res) => {
-  const { childName, childAge, childStandard, childSchool, childSkillCategory, userId } = req.body;
-  db.query(
-    `UPDATE children SET childName = '${childName}', childAge = ${childAge}, childStandard = ${childStandard}, childSchool = '${childSchool}', childSkillCategory = '${childSkillCategory}', userId = '${userId}' WHERE childId = '${req.params.id}'`,
-    (err, result) => {
-      if (err) {
-        throw err;
-      }
-      res.send({ message: "Child updated." });
+  const { childName, childClass, childGender, childSchool, childRequireSponsor, childWriteUp } = req.body;
+
+  const sql = `
+    UPDATE children 
+    SET childName = ?, childGender = ?, childClass = ?, childSchool = ?, childRequireSponsor = ?, childWriteUp = ?
+    WHERE childId = ?
+  `;
+
+  const values = [childName, childGender, childClass, childSchool, childRequireSponsor, childWriteUp, req.params.cid];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      throw err;
     }
-  );
+    res.send({ message: "Child updated." });
+  });
 });
 
 router.delete("/:cid", (req, res) => {

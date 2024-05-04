@@ -11,32 +11,59 @@ export default function UserPage() {
 
   return (
     <>
-      <div className="bg-white shadow rounded-lg border">
-        <div className="m-3">
-          <div className="relative flex">
-            <img src="https://readymadeui.com/team-1.webp" className="rounded-full w-20 md:w-32 shadow-md border-4 border-stone-400" />
-            <div className="m-3">
-              <h3 className="text-lg font-bold text-gray-900 h-fit"> {user.userName} </h3>
-              <button className="text-sm text-gray-900 hover:text-gray-500 h-fit">Edit Profile</button>
+      <div className="w-full flex justify-center items-center">
+        <div className="flex flex-col w-full sm:w-[80%] md:w-[75%] lg:w-[55%] p-4">
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-row gap-2.5 justify-center items-center">
+              <img src="https://readymadeui.com/team-1.webp" className="rounded-full w-20 md:w-32 shadow-md border-4 border-stone-400" />
+              <div className="flex flex-col">
+                <h3 className="text-lg font-bold text-gray-900 h-fit">{user.userName}</h3>
+                <Link to="/user/new" className="flex">
+                  <div className="text-sm text-gray-900 hover:text-gray-500 h-fit mr-1.5">Edit Profile</div>
+                  <i className="fa-solid fa-pen-to-square"></i>
+                </Link>
+              </div>
+            </div>
+            <div className="rounded-md shadow-sm flex justify-center items-center" role="group">
+              <button
+                type="button"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium border rounded-s-lg focus:z-10 focus:ring-2 bg-gray-700 border-gray-700 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
+              >
+                <i className="fa-solid fa-user-plus"></i>
+                <Link to="/user/children/create" className="font-medium text-sm px-1">
+                  Add Talent
+                </Link>
+              </button>
+              <button
+                type="button"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium border-t border-b focus:z-10 focus:ring-2 bg-gray-700 border-gray-700 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
+              >
+                <i className="fa-solid fa-shop"></i>
+                <Link to="/shop" className="font-medium text-sm px-1">
+                  Marketplace
+                </Link>
+              </button>
+              <button
+                type="button"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium border rounded-e-lg focus:z-10 focus:ring-2 bg-gray-700 border-gray-700 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
+              >
+                <i className="fa-solid fa-house"></i>
+                <Link to="/shop" className="font-medium text-sm px-1">
+                  Browse
+                </Link>
+              </button>
             </div>
           </div>
-        </div>
-        <div className="m-3">
-          <Link to="/user/children/new" className="text-gray-800 font-medium text-sm w-1/3 px-1">
-            Add Talent
-          </Link>
-          <a href="" className="text-gray-800 font-medium text-sm w-1/3 px-1">
-            Marketplace
-          </a>
-          <a href="" className="text-gray-800 font-medium text-sm w-1/3 px-1">
-            Browse
-          </a>
-        </div>
-        <div className="bg-white shadow-[0_2px_15px_-6px_rgba(0,0,0,0.2)] px-6 py-8 w-full max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4">
-          <div className="flex items-center">
-            <h3 className="text-xl font-bold flex-1 text-black">Heading</h3>
+          <div className="flex justify-center items-center flex-col">
+            <div className="flex items-center">
+              <h3 className="text-xl font-bold flex-1 text-black">Manage your talents:</h3>
+            </div>
+            <div className="flex justify-center items-center gap-4">
+              {children.map((child, index) => (
+                <ChildSection key={index} data={child} />
+              ))}
+            </div>
           </div>
-          {children.map((child, index) => <ChildSection key={index} childName={child.childName} />)}
         </div>
       </div>
     </>

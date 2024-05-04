@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-export default function Input({name, label, value, handleChange, type="text", placeholder="", required=false}) {
+export default function Input({ name, label, value, handleChange, type = "text", placeholder = "", required = false }) {
   return (
     <div>
       <label htmlFor={name} className="block mb-2 text-sm font-medium text-gray-900">

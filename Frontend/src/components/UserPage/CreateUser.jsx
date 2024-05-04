@@ -1,37 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import { useRouteLoaderData, useNavigate, Form, redirect } from "react-router-dom";
+import { Form, redirect, useLoaderData } from "react-router-dom";
 
 import CreateSection from "./CreateSection";
-import { parseJwt } from "../../utils/auth";
-
-async function checkFirstTimeUser(token) {
-  const userId = parseJwt(token);
-
-  const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const isNewUser = res.data.user.newUser;
-  if (isNewUser === 1) return true;
-  else return false;
-}
+import { parseJwt, getAuthToken } from "../../utils/auth";
 
 export default function CreateUser() {
-  const token = useRouteLoaderData("user");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    function check() {
-      const isNew = checkFirstTimeUser(token);
-      if (!isNew) {
-        navigate("/user");
-      }
-    }
-    check();
-  }, [token]);
+  const userData = useLoaderData();
 
   return (
     <>
@@ -39,12 +14,45 @@ export default function CreateUser() {
         <h1 className="text-2xl font-semibold text-gray-900">Add your details</h1>
         <div>
           <Form method="POST">
-            <CreateSection />
+            <CreateSection data={userData} />
           </Form>
         </div>
       </div>
     </>
   );
+}
+
+export async function loader({ request }) {
+  const token = getAuthToken();
+  const userId = parseJwt(token);
+  const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const isNewUser = res.data.user.newUser;
+  const emptyData = {
+    userName: "",
+    userAddress: "",
+    userRole: "",
+    userEmail: "",
+    userLang: "",
+  };
+
+  if (isNewUser === 1) return emptyData;
+  else {
+    const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.status !== 200) {
+      throw new Error("Failed to fetch user data.");
+    }
+    return res.data.user;
+  }
 }
 
 export async function action({ request }) {
@@ -57,6 +65,7 @@ export async function action({ request }) {
     userEmail: data.get("userEmail"),
     userAddress: data.get("userAddress"),
     userRole: data.get("userRole"),
+    userLang: data.get("userLang"),
   };
 
   try {
