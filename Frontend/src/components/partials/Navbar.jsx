@@ -1,52 +1,59 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, Form, useRouteLoaderData } from "react-router-dom";
+import React from "react";
+import { NavLink, useRouteLoaderData } from "react-router-dom";
+import { useUserContext } from "../../store/UserContext";
 
 import NavItem from "./NavItem";
 
-const pages = [
-  {
-    name: "Home",
-    link: "/",
-    condition: () => true,
-  },
-  {
-    name: "Shop",
-    link: "/shop",
-    condition: () => true,
-  },
-  {
-    name: "Login",
-    link: "/auth?mode=login",
-    condition: (token) => !token,
-  },
-  {
-    name: "Register",
-    link: "/auth?mode=register",
-    condition: (token) => !token,
-  },
-  {
-    name: "User",
-    link: "/user",
-    condition: (token) => token,
-  },
-  {
-    name: "Talents",
-    link: "/talents",
-    condition: (token) => token,
-  },
-  {
-    name: "Logout",
-    link: "/logout",
-    condition: (token) => token,
-    isLogout: true,
-  },
-];
-
 export default function Navbar() {
+  const { cart } = useUserContext();
   const navClass =
     "block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 hover:text-black md:hover:text-gray-300 md:p-0 text-white";
 
   const token = useRouteLoaderData("root");
+
+  const pages = [
+    {
+      name: "Home",
+      link: "/",
+      condition: () => true,
+    },
+    {
+      name: "Shop",
+      link: "/shop",
+      condition: () => true,
+    },
+    {
+      name: "Login",
+      link: "/auth?mode=login",
+      condition: (token) => !token,
+    },
+    {
+      name: "Register",
+      link: "/auth?mode=register",
+      condition: (token) => !token,
+    },
+    {
+      name: "User",
+      link: "/user",
+      condition: (token) => token,
+    },
+    {
+      name: "Talents",
+      link: "/talents",
+      condition: (token) => token,
+    },
+    {
+      name: `Cart (${cart})`,
+      link: "/user/cart",
+      condition: (token) => token,
+    },
+    {
+      name: "Logout",
+      link: "/logout",
+      condition: (token) => token,
+      isLogout: true,
+    },
+  ];
 
   return (
     <nav className="bg-gray-900 w-full">

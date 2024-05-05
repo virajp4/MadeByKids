@@ -16,6 +16,7 @@ import AuthPage, { action as authAction } from "./components/AuthPage/AuthPage";
 import TalentDetails from "./components/TalentsPage/TalentDetails";
 import UserPage, { loader as userLoader } from "./components/UserPage/UserPage";
 import CreateUser, { action as createUserAction, loader as newUserDataLoader } from "./components/UserPage/CreateUser";
+import CartPage from "./components/CartPage/CartPage";
 
 import { checkAuthLoader, tokenLoader } from "./utils/auth";
 
@@ -76,6 +77,10 @@ function App() {
             {
               path: "settings",
               element: <h1>User Settings</h1>,
+            },
+            {
+              path: "cart",
+              element: <CartPage />,
             },
           ],
         },
