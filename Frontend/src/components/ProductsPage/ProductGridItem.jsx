@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useRouteLoaderData } from "react-router-dom";
 import CartButton from "../partials/CartButton";
 
-export default function ProductGridItem({ name, price, id }) {
+export default function ProductGridItem({ productName, productPrice, id, showCart = true}) {
+  const token = useRouteLoaderData("root");
   return (
     <div className="">
       <Link to={`/shop/${id}`}>
@@ -17,13 +18,13 @@ export default function ProductGridItem({ name, price, id }) {
         <div>
           <h3 className="text-sm text-gray-700">
             <span aria-hidden="true" className=""></span>
-            {name}
+            {productName}
           </h3>
           <p className="mt-1 text-sm text-gray-500">Black</p>
         </div>
-        <p className="text-sm font-medium text-gray-900">₹{price}</p>
+        <p className="text-sm font-medium text-gray-900">₹{productPrice}</p>
       </div>
-      <CartButton id={id} />
+      {showCart && token && <CartButton id={id} />}
     </div>
   );
 }

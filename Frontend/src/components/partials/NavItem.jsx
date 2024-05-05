@@ -12,8 +12,8 @@ export default function NavItem({ title, href, isLogout }) {
     localStorage.removeItem("token");
     localStorage.removeItem("expiration");
     setUserId("");
-
     navigate("/");
+    window.location.reload();
   };
 
   if (isLogout) {

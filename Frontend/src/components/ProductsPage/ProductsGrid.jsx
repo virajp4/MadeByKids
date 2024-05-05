@@ -1,50 +1,7 @@
 import ProductGridItem from "./ProductGridItem";
 import CategoryCheckbox from "../partials/CategoryCheckbox";
 
-const prods = [
-  {
-    name: "Product 1",
-    price: "10.99",
-  },
-  {
-    name: "Product 2",
-    price: "20.99",
-  },
-  {
-    name: "Product 3",
-    price: "30.99",
-  },
-  {
-    name: "Product 4",
-    price: "40.99",
-  },
-  {
-    name: "Product 5",
-    price: "50.99",
-  },
-  {
-    name: "Product 6",
-    price: "60.99",
-  },
-  {
-    name: "Product 7",
-    price: "70.99",
-  },
-  {
-    name: "Product 8",
-    price: "80.99",
-  },
-  {
-    name: "Product 9",
-    price: "90.99",
-  },
-  {
-    name: "Product 10",
-    price: "100.99",
-  },
-];
-
-export default function ProductsGrid({ limit }) {
+export default function ProductsGrid({ limit = 2, showCart = true, products }) {
   return (
     <div className="">
       <div className="px-6 my-4">
@@ -98,8 +55,8 @@ export default function ProductsGrid({ limit }) {
       </div>
       <div className="p-4 sm:px-5 sm:py-5 lg:px-8">
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {prods.map((prod, idx) => {
-            if (idx < limit) return <ProductGridItem key={idx} id={idx} {...prod} />;
+          {products.map((prod, idx) => {
+            if (idx < limit) return <ProductGridItem key={idx} id={prod["productId"]} {...prod} showCart={showCart} />;
           })}
         </div>
       </div>

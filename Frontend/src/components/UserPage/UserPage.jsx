@@ -12,7 +12,7 @@ export default function UserPage() {
   return (
     <>
       <div className="w-full flex justify-center items-center">
-        <div className="flex flex-col w-full sm:w-[80%] md:w-[75%] lg:w-[55%] p-4">
+        <div className="flex flex-col w-full sm:w-[80%] md:w-[75%] lg:w-[55%] p-4 gap-4">
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-2.5 justify-center items-center">
               <img src="https://readymadeui.com/team-1.webp" className="rounded-full w-20 md:w-32 shadow-md border-4 border-stone-400" />
@@ -54,7 +54,7 @@ export default function UserPage() {
               </button>
             </div>
           </div>
-          <div className="flex justify-center items-center flex-col">
+          <div className="flex justify-center items-center flex-col gap-3">
             <div className="flex items-center">
               <h3 className="text-xl font-bold flex-1 text-black">Manage your talents:</h3>
             </div>

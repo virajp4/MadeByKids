@@ -17,6 +17,8 @@ import TalentDetails from "./components/TalentsPage/TalentDetails";
 import UserPage, { loader as userLoader } from "./components/UserPage/UserPage";
 import CreateUser, { action as createUserAction, loader as newUserDataLoader } from "./components/UserPage/CreateUser";
 import CartPage from "./components/CartPage/CartPage";
+import TalentPage, { loader as TalentDetailsLoader } from "./components/TalentsPage/TalentPage";
+import AddProduct, { action as addProductAction, loader as productLoader } from "./components/TalentsPage/AddProduct";
 
 import { checkAuthLoader, tokenLoader } from "./utils/auth";
 
@@ -37,13 +39,6 @@ function App() {
             {
               path: ":productId",
               element: <Product />,
-              children: [{ path: "edit", element: <h1>Edit Product</h1>, loader: checkAuthLoader }],
-            },
-            {
-              path: "new",
-              element: <h1>New Product</h1>,
-              id: "new-product",
-              loader: checkAuthLoader,
             },
           ],
         },
@@ -59,18 +54,29 @@ function App() {
               path: "children",
               element: <ChildLayout />,
               children: [
-                { index: true, element: <h1>Child Profile</h1> },
                 {
                   path: "create",
                   element: <TalentDetails />,
                 },
                 {
                   path: ":childId",
-                  element: <h1>Child Profile</h1>,
+                  element: <TalentPage />,
+                  loader: TalentDetailsLoader,
                 },
                 {
                   path: ":childId/edit",
                   element: <TalentDetails />,
+                },
+                {
+                  path: ":childId/products/:productId/edit",
+                  element: <AddProduct />,
+                  action: addProductAction,
+                  loader: productLoader,
+                },
+                {
+                  path: ":childId/products/new",
+                  element: <AddProduct />,
+                  action: addProductAction,
                 },
               ],
             },
