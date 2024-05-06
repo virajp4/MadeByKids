@@ -5,11 +5,12 @@ import axios from "axios";
 import Navbar from "../../partials/Navbar";
 import Footer from "../../partials/Footer";
 import { getTokenDuration, parseJwt } from "../../../utils/auth";
+import { getCart } from "../../../utils/functions";
 import { useUserContext } from "../../../store/UserContext";
 
 export default function Layout() {
   const token = useLoaderData();
-  const { userId, setUserId } = useUserContext();
+  const { userId, setUserId, setCart } = useUserContext();
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
@@ -18,6 +19,11 @@ export default function Layout() {
     localStorage.removeItem("token");
     localStorage.removeItem("expiration");
     setUserId("");
+  }
+
+  async function storeCart() {
+    const cart = await getCart(userId);
+    setCart(cart);
   }
 
   async function checkNewUser(token, userId) {
@@ -29,7 +35,7 @@ export default function Layout() {
       });
       const newUser = response.data.user.newUser;
       if (newUser === 1) {
-        navigate("/user/create");
+        navigate("/user/new");
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -49,6 +55,8 @@ export default function Layout() {
 
     const userId = parseJwt(token);
     setUserId(userId);
+    storeCart();
+
     const timeoutIdOne = setTimeout(() => {
       checkNewUser(token, userId);
     }, 1000);

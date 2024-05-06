@@ -6,9 +6,8 @@ const db = require("../util/db.js");
 
 router.use(checkAuth);
 
-router.get("/cart/", (req, res) => {
-  const { userId } = req.params;
-
+router.get("/", (req, res) => {
+  const userId = req.params.id;
   const query1 = `SELECT cartId FROM users WHERE userId = ?`;
   db.query(query1, [userId], (err, results) => {
     if (err) {
@@ -20,26 +19,25 @@ router.get("/cart/", (req, res) => {
     const cartId = results[0].cartId;
 
     const query = `
-    SELECT ci.cartDetailId, ci.quantity, p.productName, p.productPrice
+    SELECT ci.cartDetailId, ci.quantity, p.productName, p.productPrice, p.productId, p.inventory, p.productDetails
     FROM cartItems ci
     JOIN products p ON ci.productId = p.productId
     WHERE ci.cartId = ?
   `;
 
-    db.query(query, [cartId], (err, results) => {
+    db.query(query, [cartId], (err, r) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
-      res.json({ items: results });
+      res.json({ items: r });
     });
   });
 });
 
-router.post("/cart/add", (req, res) => {
-  const { userId } = req.params;
+router.post("/add", (req, res) => {
+  const userId = req.params.id;
   const { productId, quantity } = req.body;
 
-  // Fetch the user's cart ID
   const query = `SELECT cartId FROM users WHERE userId = ?`;
   db.query(query, [userId], (err, results) => {
     if (err) {
@@ -50,7 +48,6 @@ router.post("/cart/add", (req, res) => {
     }
     const cartId = results[0].cartId;
 
-    // Check product inventory
     const inventoryCheck = `SELECT inventory FROM products WHERE productId = ?`;
     db.query(inventoryCheck, [productId], (err, inventoryResults) => {
       if (err) {
@@ -60,15 +57,12 @@ router.post("/cart/add", (req, res) => {
         return res.status(400).json({ error: "Not enough inventory" });
       }
 
-      // Check if the product is already in the cart
       const cartItemCheck = `SELECT cartDetailId, quantity FROM cartItems WHERE cartId = ? AND productId = ?`;
       db.query(cartItemCheck, [cartId, productId], (err, cartItemResults) => {
         if (err) {
           return res.status(500).json({ error: err.message });
         }
-
         if (cartItemResults.length > 0) {
-          // Item already exists, update the quantity
           const existingCartItem = cartItemResults[0];
           const newQuantity = existingCartItem.quantity + quantity;
           const updateCartItem = `UPDATE cartItems SET quantity = ? WHERE cartDetailId = ?`;
@@ -79,7 +73,6 @@ router.post("/cart/add", (req, res) => {
             res.json({ message: "Cart quantity updated", cartDetailId: existingCartItem.cartDetailId });
           });
         } else {
-          // Item does not exist, insert new item
           const cartDetailId = uuidv4().replace(/-/gi, "");
           const insertQuery = `INSERT INTO cartItems (cartDetailId, cartId, productId, quantity) VALUES (?, ?, ?, ?)`;
           db.query(insertQuery, [cartDetailId, cartId, productId, quantity], (err, insertResult) => {
@@ -100,15 +93,51 @@ router.post("/cart/add", (req, res) => {
   });
 });
 
-router.delete("/cart/:cartId/items/:productId", (req, res) => {
+router.delete("/:cartId/items/:productId", (req, res) => {
   const { cartId, productId } = req.params;
+  const { quantity } = req.body;
 
-  const query = `DELETE FROM cartItems WHERE cartId = ? AND productId = ?`;
-  db.query(query, [cartId, productId], (err, result) => {
+  const cartItemCheck = `SELECT cartDetailId, quantity FROM cartItems WHERE cartId = ? AND productId = ?`;
+  db.query(cartItemCheck, [cartId, productId], (err, cartItemResults) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    
-    res.json({ message: "Item removed from cart" });
+    if (cartItemResults.length === 0) {
+      return res.status(404).json({ error: "Product not found in cart" });
+    }
+
+    const cartItem = cartItemResults[0];
+    if (cartItem.quantity <= quantity) {
+      const removeQuery = `DELETE FROM cartItems WHERE cartDetailId = ?`;
+      db.query(removeQuery, [cartItem.cartDetailId], (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        const updateInventory = `UPDATE products SET inventory = inventory + ? WHERE productId = ?`;
+        db.query(updateInventory, [cartItem.quantity, productId], (err, result) => {
+          if (err) {
+            return res.status(500).json({ error: err.message });
+          }
+          res.json({ message: "Item removed from cart" });
+        });
+      });
+    } else {
+      const newQuantity = cartItem.quantity - quantity;
+      const updateCartItem = `UPDATE cartItems SET quantity = ? WHERE cartDetailId = ?`;
+      db.query(updateCartItem, [newQuantity, cartItem.cartDetailId], (err, result) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        const updateInventory = `UPDATE products SET inventory = inventory + ? WHERE productId = ?`;
+        db.query(updateInventory, [quantity, productId], (err, result) => {
+          if (err) {
+            return res.status(500).json({ error: err.message });
+          }
+          res.json({ message: "Cart quantity updated", newQuantity: newQuantity });
+        });
+      });
+    }
   });
 });
+
+module.exports = router;

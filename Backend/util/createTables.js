@@ -42,8 +42,21 @@ function reviewTable(val) {
 }
 
 function userTable(val) {
-  const create =
-    "CREATE TABLE IF NOT EXISTS users (userId char(36) NOT NULL PRIMARY KEY, userName VARCHAR(255), userPhone char(10), userPassword varchar(255), newUser int(1), userAddress varchar(255), userCity varchar(20), userPinCode int(6), userEmail varchar(255), userRole SET('GUARDIAN', 'GUEST'), userLang SET('ENGLISH', 'TAMIL'))";
+  const create = `CREATE TABLE IF NOT EXISTS users (
+      userId CHAR(36) NOT NULL PRIMARY KEY,
+      userName VARCHAR(255),
+      userPhone CHAR(10),
+      userPassword VARCHAR(255),
+      newUser INT(1),
+      userAddress VARCHAR(255),
+      userCity VARCHAR(20),
+      userPinCode INT(6),
+      userEmail VARCHAR(255),
+      userRole SET('GUARDIAN', 'GUEST'),
+      userLang SET('ENGLISH', 'TAMIL'),
+      cartId CHAR(36)
+    )`;
+
   const del = "DROP TABLE IF EXISTS users";
 
   const command = val === 0 ? del : create;
@@ -53,6 +66,7 @@ function userTable(val) {
     }
   });
 }
+
 
 function cartTable(val) {
   const create =

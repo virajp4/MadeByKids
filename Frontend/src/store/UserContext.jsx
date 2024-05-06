@@ -1,11 +1,12 @@
 import React from "react";
-import { createContext, useEffect, useContext, useReducer } from "react";
+import { createContext, useContext, useReducer } from "react";
 
 const UserContext = createContext({
   userId: "",
   setUserId: () => {},
-  cart: 0,
+  cart: [],
   setCart: () => {},
+  cartLength: 0,
 });
 
 function reducerFunction(state, action) {
@@ -13,28 +14,24 @@ function reducerFunction(state, action) {
     case "setUserId":
       return { ...state, userId: action.payload };
     case "setCart":
-      return { ...state, cart: action.payload < 0 ? 0 : action.payload };
+      return { ...state, cart: action.payload, cartLength: action.payload.length };
     default:
       return state;
   }
 }
 
 export default function UserContextProvider({ children }) {
-  const [state, dispatch] = useReducer(reducerFunction, { userId: "", cart: 0 });
+  const [state, dispatch] = useReducer(reducerFunction, { userId: "", cart: [] });
 
   function setUserId(userId) {
     dispatch({ type: "setUserId", payload: userId });
   }
 
-  function setCart(val) {
-    if (val > 0) {
-      dispatch({ type: "setCart", payload: state.cart + 1 });
-    } else {
-      dispatch({ type: "setCart", payload: state.cart - 1 });
-    }
+  async function setCart(cart) {
+    dispatch({ type: "setCart", payload: cart });
   }
 
-  const ctxValue = { userId: state.userId, setUserId, cart: state.cart, setCart };
+  const ctxValue = { userId: state.userId, setUserId, cart: state.cart, setCart, cartLength: state.cart.length };
 
   return <UserContext.Provider value={ctxValue}>{children}</UserContext.Provider>;
 }

@@ -1,11 +1,14 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useRouteLoaderData } from "react-router-dom";
+
 import { useUserContext } from "../../store/UserContext";
 
 import NavItem from "./NavItem";
 
 export default function Navbar() {
-  const { cart } = useUserContext();
+  const { cartLength } = useUserContext();
+
   const navClass =
     "block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 hover:text-black md:hover:text-gray-300 md:p-0 text-white";
 
@@ -43,7 +46,7 @@ export default function Navbar() {
       condition: (token) => token,
     },
     {
-      name: `Cart (${cart})`,
+      name: `Cart (${cartLength})`,
       link: "/user/cart",
       condition: (token) => token,
     },

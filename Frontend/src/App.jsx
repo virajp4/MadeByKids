@@ -10,8 +10,8 @@ import UserLayout from "./components/Layouts/UserLayout/UserLayout";
 import ChildLayout from "./components/Layouts/UserLayout/ChildLayout";
 
 import HomePage from "./components/HomePage/HomePage";
-import ProductsPage from "./components/ProductsPage/ProductsPage";
-import Product from "./components/ProductsPage/Product";
+import ProductsPage, { loader as allProductsLoader } from "./components/ProductsPage/ProductsPage";
+import Product, { loader as singleProductLoader } from "./components/ProductsPage/Product";
 import AuthPage, { action as authAction } from "./components/AuthPage/AuthPage";
 import TalentDetails from "./components/TalentsPage/TalentDetails";
 import UserPage, { loader as userLoader } from "./components/UserPage/UserPage";
@@ -30,17 +30,16 @@ function App() {
       id: "root",
       loader: tokenLoader,
       children: [
-        { index: true, element: <HomePage /> },
+        { index: true, element: <HomePage />, loader: allProductsLoader },
         {
           path: "shop",
-          element: <ProductLayout />,
-          children: [
-            { index: true, element: <ProductsPage /> },
-            {
-              path: ":productId",
-              element: <Product />,
-            },
-          ],
+          element: <ProductsPage />,
+          loader: allProductsLoader,
+        },
+        {
+          path: "shop/:productId",
+          element: <Product />,
+          loader: singleProductLoader,
         },
         {
           path: "user",
@@ -86,7 +85,7 @@ function App() {
             },
             {
               path: "cart",
-              element: <CartPage />,
+              element: <CartPage />
             },
           ],
         },

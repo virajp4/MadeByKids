@@ -2,8 +2,9 @@ const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 
 const { checkAuth } = require("../util/auth");
-const childrenRoutes = require("./childrenRoutes");
 const db = require("../util/db.js");
+const childrenRoutes = require("./childrenRoutes");
+const cartRoutes = require("./cartRoutes");
 
 router.use(checkAuth);
 
@@ -26,6 +27,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.use("/:id/children", childrenRoutes);
+router.use("/:id/cart", cartRoutes);
 
 router.post("/:id", (req, res) => {
   const userId = req.params.id;
@@ -34,12 +36,17 @@ router.post("/:id", (req, res) => {
 
   db.query(
     `UPDATE users SET userName = ?, userAddress = ?, userEmail = ?, userRole = ?, userLang = ?, newUser = 0, cartId = ? WHERE userId = ?`,
-    [userName, userAddress, userEmail, userRole, userLang, userId, cartId],
+    [userName, userAddress, userEmail, userRole, userLang, cartId, userId],
     (err, result) => {
       if (err) {
         throw err;
       }
-      res.send({ message: "User created." });
+      db.query("INSERT INTO cart (cartId, userId) VALUES (?, ?)", [cartId, userId], (err, result) => {
+        if (err) {
+          throw err; // Or handle this more gracefully
+        }
+        res.send({ message: "User created." });
+      });
     }
   );
 });

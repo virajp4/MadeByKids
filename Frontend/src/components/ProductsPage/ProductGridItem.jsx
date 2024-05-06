@@ -1,11 +1,11 @@
 import { Link, useRouteLoaderData } from "react-router-dom";
 import CartButton from "../partials/CartButton";
 
-export default function ProductGridItem({ productName, productPrice, id, showCart = true}) {
+export default function ProductGridItem({ productName, productPrice, productId, showCart = true }) {
   const token = useRouteLoaderData("root");
   return (
     <div className="">
-      <Link to={`/shop/${id}`}>
+      <Link to={`/shop/${productId}`}>
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none hover:opacity-75 lg:h-80">
           <img
             src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
@@ -24,7 +24,7 @@ export default function ProductGridItem({ productName, productPrice, id, showCar
         </div>
         <p className="text-sm font-medium text-gray-900">₹{productPrice}</p>
       </div>
-      {showCart && token && <CartButton id={id} />}
+      {showCart && token && <CartButton productId={productId} />}
     </div>
   );
 }

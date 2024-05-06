@@ -1,9 +1,10 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
+import axios from "axios";
 
-export default function Product({ name = "Coffee", rating = 3, price = 12 }) {
-  const { productId } = useParams();
+export default function Product({ rating = 3 }) {
+  const product = useLoaderData();
   const [imgs, setImgs] = useState([]);
 
   const i = [
@@ -72,9 +73,9 @@ export default function Product({ name = "Coffee", rating = 3, price = 12 }) {
             </button>
           </div>
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-extrabold text-gray-800">{name}</h2>
+            <h2 className="text-2xl font-extrabold text-gray-800">{product.productName}</h2>
             <div className="flex flex-wrap gap-4 mt-4">
-              <p className="text-gray-800 text-xl font-bold">₹{price}</p>
+              <p className="text-gray-800 text-xl font-bold">₹{product.productPrice}</p>
             </div>
             <div className="flex space-x-2 mt-4">
               {Array.from({ length: rating }).map((_, idx) => (
@@ -85,10 +86,10 @@ export default function Product({ name = "Coffee", rating = 3, price = 12 }) {
               ))}
             </div>
             <div className="mt-8">
-              <h3 className="text-lg font-bold text-gray-800">About the coffee</h3>
-              <ul className="space-y-3 list-disc mt-4 pl-4 text-sm text-gray-800">
-                <li>A cup of coffee is a beverage essential because of its timeless appeal</li>
-              </ul>
+              <h3 className="text-lg font-bold text-gray-800">About</h3>
+              <p className="space-y-3 list-disc mt-4 text-sm text-gray-800">
+                {product.productDetails}
+              </p>
             </div>
             <div className="mt-8 max-w-md">
               <h3 className="text-lg font-bold text-gray-800">Reviews(10)</h3>
@@ -181,4 +182,14 @@ export default function Product({ name = "Coffee", rating = 3, price = 12 }) {
       </div>
     </div>
   );
+}
+
+export async function loader({ params }) {
+  const prodId = params.productId;
+  const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/shop/${prodId}`);
+  if (response.status !== 200) {
+    throw new Error("Failed to load product");
+  }
+  const product = response.data.product;
+  return product;
 }

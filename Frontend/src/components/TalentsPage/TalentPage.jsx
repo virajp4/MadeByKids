@@ -29,7 +29,7 @@ export default function TalentPage() {
                 className="inline-flex items-center px-4 py-2 text-sm font-medium border rounded-lg focus:z-10 focus:ring-2 bg-gray-700 border-gray-700 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
               >
                 <i className="fa-solid fa-plus"></i>
-                <Link to={`/shop/${childData.childId}/new`} className="font-medium text-sm px-1">
+                <Link to={`/user/children/${childData.childId}/products/new`} className="font-medium text-sm px-1">
                   New Product
                 </Link>
               </button>
