@@ -19,9 +19,9 @@ export default function CartPage() {
           <h5 class="text-gray-900 font-manrope font-semibold text-2xl leading-9 w-full max-md:text-center max-md:mb-4">Subtotal</h5>
 
           <div class="flex items-center justify-between gap-5 ">
-            <button class="rounded-full py-2.5 px-3 bg-indigo-50 text-indigo-600 font-semibold text-xs text-center whitespace-nowrap transition-all duration-500 hover:bg-indigo-100">
+            {/* <button class="rounded-full py-2.5 px-3 bg-indigo-50 text-indigo-600 font-semibold text-xs text-center whitespace-nowrap transition-all duration-500 hover:bg-indigo-100">
               Promo Code?
-            </button>
+            </button> */}
             <h6 class="font-manrope font-bold text-3xl lead-10 text-indigo-600">₹{total}</h6>
           </div>
         </div>

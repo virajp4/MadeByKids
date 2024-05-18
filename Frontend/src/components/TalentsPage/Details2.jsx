@@ -18,7 +18,6 @@ export default function Details2({ handleChange, data, handleBack, isNew }) {
             placeholder="Handicraft, Singing, Dancing"
             value={data.skills}
             onChange={handleChange}
-            required
           />
         </div>
         <div>

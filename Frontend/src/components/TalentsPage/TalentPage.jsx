@@ -17,7 +17,7 @@ export default function TalentPage() {
               <img src="https://readymadeui.com/team-1.webp" className="rounded-full w-20 md:w-32 shadow-md border-4 border-stone-400" />
               <div className="flex flex-col">
                 <h3 className="text-lg font-bold text-gray-900 h-fit">{childData.childName}</h3>
-                <Link to="/user/new" className="flex">
+                <Link to={`/user/children/${childData.childId}/edit`} className="flex items-center gap-1.5">
                   <div className="text-sm text-gray-900 hover:text-gray-500 h-fit mr-1.5">Edit Profile</div>
                   <i className="fa-solid fa-pen-to-square"></i>
                 </Link>

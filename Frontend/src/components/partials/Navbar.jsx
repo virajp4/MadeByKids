@@ -41,11 +41,6 @@ export default function Navbar() {
       condition: (token) => token,
     },
     {
-      name: "Talents",
-      link: "/talents",
-      condition: (token) => token,
-    },
-    {
       name: `Cart (${cartLength})`,
       link: "/user/cart",
       condition: (token) => token,

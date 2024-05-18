@@ -24,10 +24,10 @@ export default function UserPage() {
                 </Link>
               </div>
             </div>
-            <div className="rounded-md shadow-sm flex justify-center items-center" role="group">
+            <div className="rounded-md shadow-sm flex justify-center items-center gap-1" role="group">
               <button
                 type="button"
-                className="inline-flex items-center px-4 py-2 text-sm font-medium border rounded-s-lg focus:z-10 focus:ring-2 bg-gray-700 border-gray-700 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium border rounded-lg focus:z-10 focus:ring-2 bg-gray-700 border-gray-700 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
               >
                 <i className="fa-solid fa-user-plus"></i>
                 <Link to="/user/children/create" className="font-medium text-sm px-1">
@@ -36,7 +36,7 @@ export default function UserPage() {
               </button>
               <button
                 type="button"
-                className="inline-flex items-center px-4 py-2 text-sm font-medium border-t border-b focus:z-10 focus:ring-2 bg-gray-700 border-gray-700 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium border rounded-lg focus:z-10 focus:ring-2 bg-gray-700 border-gray-700 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
               >
                 <i className="fa-solid fa-shop"></i>
                 <Link to="/shop" className="font-medium text-sm px-1">
@@ -45,7 +45,7 @@ export default function UserPage() {
               </button>
               <button
                 type="button"
-                className="inline-flex items-center px-4 py-2 text-sm font-medium border rounded-e-lg focus:z-10 focus:ring-2 bg-gray-700 border-gray-700 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
+                className="inline-flex items-center px-4 py-2 text-sm font-medium border rounded-lg focus:z-10 focus:ring-2 bg-gray-700 border-gray-700 text-white hover:text-white hover:bg-gray-600 focus:ring-blue-500 focus:text-white"
               >
                 <i className="fa-solid fa-house"></i>
                 <Link to="/shop" className="font-medium text-sm px-1">

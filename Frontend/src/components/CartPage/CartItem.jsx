@@ -26,8 +26,13 @@ export default function CartItem({ data }) {
         </div>
         <p class="font-normal text-base leading-7 text-gray-500 mb-6">{data.productDetails} </p>
         <div class="flex justify-between items-center">
-          <CartButton productId={data.productId} quantity={data.quantity} />
-          <h6 class="text-indigo-600 font-manrope font-bold text-2xl leading-9 text-right">₹{data.productPrice * data.quantity}</h6>
+          <div className="flex">
+            <CartButton productId={data.productId} quantity={data.quantity} />
+            <h6 class="text-gray-600 font-manrope font-bold text-2xl leading-9 text-right">&nbsp; x ₹{data.productPrice}</h6>
+          </div>
+          <div className="flex">
+            <h6 class="text-indigo-600 font-manrope font-bold text-2xl leading-9 text-right">₹{data.productPrice * data.quantity}</h6>
+          </div>
         </div>
       </div>
     </div>
