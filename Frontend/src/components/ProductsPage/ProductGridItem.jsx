@@ -1,14 +1,16 @@
 import { Link, useRouteLoaderData } from "react-router-dom";
 import CartButton from "../partials/CartButton";
+import product2 from "../../assets/product2.jpg";
 
-export default function ProductGridItem({ productName, productPrice, productId, showCart = true }) {
+export default function ProductGridItem({ product, showCart = true }) {
   const token = useRouteLoaderData("root");
+  const { productName, productPrice, productId } = product;
   return (
     <div className="">
       <Link to={`/shop/${productId}`}>
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none hover:opacity-75 lg:h-80">
           <img
-            src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
+            src={product2}
             alt="Front of men&#039;s Basic Tee in black."
             className="h-full w-full object-cover object-center lg:h-full lg:w-full"
           />

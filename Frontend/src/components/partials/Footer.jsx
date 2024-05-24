@@ -7,8 +7,9 @@ export default function Footer() {
       <div className="w-full max-w-screen-xl mx-auto p-4">
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link to="/" className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-            <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-white">MadeByKids</span>
+            <span className="self-center text-xl font-bold whitespace-nowrap text-white">
+              <span className="text-violet-400">Made</span>ByKids
+            </span>
           </Link>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium sm:mb-0 text-gray-400">
             <li>

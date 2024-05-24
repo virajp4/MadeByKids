@@ -10,8 +10,8 @@ export default function ProductPage() {
   const products = useLoaderData();
 
   return (
-    <div className="">
-      <CategoryCarousel visibleItems={3} />
+    <div className="max-w-screen-xl overflow-x-hidden">
+      <CategoryCarousel visibleItems={100} />
       <ProductsGrid limit={8} products={products} />
     </div>
   );

@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { getAuthToken, parseJwt } from "../../utils/auth";
-
-const childImage = "https://readymadeui.com/profile_2.webp";
+import childImage from "../../assets/child.jpg";
 
 export default function ChildSection({ data }) {
   async function deleteChild() {
@@ -31,7 +30,7 @@ export default function ChildSection({ data }) {
       <div className="flex flex-col items-center">
         <img className="w-24 h-24 mb-3 rounded-full shadow-lg" src={childImage} alt="Bonnie image" />
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">{data.childName}</h5>
-        <span className="text-sm text-gray-500 dark:text-gray-400">Age {data.childClass}</span>
+        <span className="text-sm text-gray-500 dark:text-gray-400">Class {data.childClass}</span>
         <div className="flex mt-4 md:mt-6 gap-1">
           <Link
             to={`/user/children/${data.childId}`}

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { getAuthToken } from "../../utils/auth";
 
+import productImage from "../../assets/product2.jpg";
+
 export default function ShowProduct({ productId, productName, productPrice, childId }) {
   async function deleteProduct() {
     const token = getAuthToken();
@@ -25,8 +27,7 @@ export default function ShowProduct({ productId, productName, productPrice, chil
       <div>
         <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none lg:h-80">
           <img
-            src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg"
-            alt="Front of men&#039;s Basic Tee in black."
+            src={productImage}
             className="h-full w-full object-cover object-center lg:h-full lg:w-full"
           />
         </div>

@@ -4,6 +4,7 @@ import { useLoaderData, Link } from "react-router-dom";
 
 import { getAuthToken, parseJwt } from "../../utils/auth";
 import ShowProduct from "./ShowProduct";
+import childImage from "../../assets/child.jpg";
 
 export default function TalentPage() {
   const { childData, childProducts } = useLoaderData();
@@ -14,7 +15,7 @@ export default function TalentPage() {
         <div className="flex flex-col w-full sm:w-[80%] md:w-[75%] lg:w-[55%] p-4 gap-4">
           <div className="flex flex-col gap-4">
             <div className="flex flex-row gap-2.5 justify-center items-center">
-              <img src="https://readymadeui.com/team-1.webp" className="rounded-full w-20 md:w-32 shadow-md border-4 border-stone-400" />
+              <img src={childImage} className="rounded-full w-20 md:w-32 shadow-md border-4 border-stone-400" />
               <div className="flex flex-col">
                 <h3 className="text-lg font-bold text-gray-900 h-fit">{childData.childName}</h3>
                 <Link to={`/user/children/${childData.childId}/edit`} className="flex items-center gap-1.5">

@@ -1,12 +1,18 @@
 import React from "react";
 import CartButton from "../partials/CartButton";
 
+import productImage from "../../assets/product2.jpg";
+
 export default function CartItem({ data }) {
     
   return (
     <div class="rounded-3xl border-2 border-gray-200 p-4 lg:p-8 grid grid-cols-12 mb-8 max-lg:max-w-lg max-lg:mx-auto gap-y-4 ">
       <div class="col-span-12 lg:col-span-2 img box">
-        <img src="https://pagedone.io/asset/uploads/1701162826.png" alt="speaker image" class="max-lg:w-full lg:w-[180px] " />
+        <img
+          src={productImage}
+          alt="speaker image"
+          class="max-lg:w-full lg:w-[180px] "
+        />
       </div>
       <div class="col-span-12 lg:col-span-10 detail w-full lg:pl-3">
         <div class="flex items-center justify-between w-full mb-4">
@@ -28,10 +34,9 @@ export default function CartItem({ data }) {
         <div class="flex justify-between items-center">
           <div className="flex">
             <CartButton productId={data.productId} quantity={data.quantity} />
-            <h6 class="text-gray-600 font-manrope font-bold text-2xl leading-9 text-right">&nbsp; x ₹{data.productPrice}</h6>
           </div>
           <div className="flex">
-            <h6 class="text-indigo-600 font-manrope font-bold text-2xl leading-9 text-right">₹{data.productPrice * data.quantity}</h6>
+            <h6 class="text-indigo-600 font-manrope font-bold text-2xl leading-9 text-right">₹{data.productPrice}</h6>
           </div>
         </div>
       </div>
